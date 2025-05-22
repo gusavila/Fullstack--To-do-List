@@ -1,6 +1,10 @@
 import { useEffect, useState } from "react";
 import "./App.css";
+import "./assets/css/custom.css";
 import axios from "axios";
+import DeleteIcon from "@mui/icons-material/Delete";
+import AddTaskIcon from "@mui/icons-material/AddTask";
+
 
 const API_URL = "http://localhost:3000/todos";
 
@@ -54,10 +58,10 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 flex items-center justify-center p-4">
+    <div className="bg-gray-100 flex items-center justify-center p-4">
       <div className="w-full max-w-md bg-white shadow-xl rounded-2xl p-6">
         <h1 className="text-2xl font-bold mb-4 text-center text-gray-800">
-          To-Do List
+          Lista de Tarefas <AddTaskIcon className="text-green-500 pb-1" />
         </h1>
 
         <div className="flex gap-2 mb-4">
@@ -94,9 +98,9 @@ function App() {
               </span>
               <button
                 onClick={() => handleDeleteTask(t.id)}
-                className="text-red-500 hover:text-red-700 ml-3"
+                className="text-gray-500 hover:text-red-400 ml-3"
               >
-                ✕
+                <DeleteIcon />
               </button>
             </li>
           ))}

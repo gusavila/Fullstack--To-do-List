@@ -1,19 +1,6 @@
 import express from "express";
 import cors from "cors";
-import pg from "pg";
-import env from "dotenv";
-
-env.config();
-
-const db = new pg.Client({
-  user: process.env.PG_USER,
-  host: process.env.PG_HOST,
-  database: process.env.PG_DATABASE,
-  password: process.env.PG_PASSWORD,
-  port: process.env.PG_PORT,
-});
-
-db.connect();
+import db from "./db.js";
 
 const app = express();
 const PORT = 3000;
@@ -28,7 +15,7 @@ app.get("/todos", async (req, res) => {
     res.json(result.rows);
   } catch (err) {
     console.error(err);
-    res.status(500).json({ error: "Erro ao buscar tarefas" });
+    res.status(500).json({ error: "Erro interno do servidor" });
   }
 });
 
@@ -44,7 +31,7 @@ app.post("/todos", async (req, res) => {
     res.status(201).json(result.rows[0]);
   } catch (err) {
     console.log(err);
-    res.status(500).json({ error: "Erro ao adicionar tarefa" });
+    res.status(500).json({ error: "Erro interno do servidor" });
   }
 });
 
@@ -53,7 +40,7 @@ app.put("/todos/:id", async (req, res) => {
   const { id } = req.params;
   const { completed } = req.body;
   try {
-    const result = await pool.query(
+    const result = await db.query(
       "UPDATE to_do SET completed = $1 WHERE id = $2 RETURNING *",
       [completed, id]
     );
@@ -62,7 +49,7 @@ app.put("/todos/:id", async (req, res) => {
     res.json(result.rows[0]);
   } catch (err) {
     console.error(err);
-    res.status(500).json({ error: "Erro ao atualizar tarefa" });
+    res.status(500).json({ error: "Erro interno do servidor" });
   }
 });
 
@@ -74,7 +61,7 @@ app.delete("/todos/:id", async (req, res) => {
     res.status(204).send();
   } catch (err) {
     console.error(err);
-    res.status(500).json({ error: "Erro ao deletar tarefa" });
+    res.status(500).json({ error: "Erro interno do servidor" });
   }
 });
 

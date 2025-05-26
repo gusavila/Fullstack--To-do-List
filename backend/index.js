@@ -8,7 +8,7 @@ const PORT = 3000;
 app.use(cors());
 app.use(express.json());
 
-// Listar tarefas
+// List all tasks
 app.get("/todos", async (req, res) => {
   try {
     const result = await db.query("SELECT * FROM to_do ORDER BY id ASC");
@@ -19,7 +19,7 @@ app.get("/todos", async (req, res) => {
   }
 });
 
-// Criar nova tarefa
+// Create new task
 app.post("/todos", async (req, res) => {
   const { text } = req.body;
   console.log("Recebido POST:", text);
@@ -38,18 +38,29 @@ app.post("/todos", async (req, res) => {
 // Atualizar tarefa
 app.put("/todos/:id", async (req, res) => {
   const { id } = req.params;
-  const { completed } = req.body;
+  const { completed, text } = req.body;
+
   try {
+    const existing = await db.query("SELECT * FROM to_do WHERE id = $1", [id]);
+
+    if (existing.rowCount === 0) {
+      return res.status(404).json({ error: "Tarefa não encontrada" });
+    }
+
+    const currentTask = existing.rows[0];
+
+    const updatedCompleted = completed !== undefined ? completed : currentTask.completed;
+    const updatedText = text !== undefined ? text : currentTask.text;
+
     const result = await db.query(
-      "UPDATE to_do SET completed = $1 WHERE id = $2 RETURNING *",
-      [completed, id]
+      "UPDATE to_do SET completed = $1, text = $2 WHERE id = $3 RETURNING *",
+      [updatedCompleted, updatedText, id]
     );
-    if (result.rowCount === 0)
-      return res.status(404).json({ error: "Não encontrado" });
+
     res.json(result.rows[0]);
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: "Erro interno do servidor" });
+    console.error("Erro ao atualizar tarefa:", err);
+    res.status(500).json({ error: "Erro ao atualizar tarefa" });
   }
 });
 

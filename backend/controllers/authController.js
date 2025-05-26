@@ -1,6 +1,6 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import db from "pg";
+import db from "../db";
 import env from "dotenv";
 
 env.config();

@@ -14,7 +14,7 @@ const TodoForm = ({ task, setTask, onAddTask, onKeyDown }) => {
         onMouseDown={(event) => {
           event.preventDefault();
         }}
-        className="px-4 py-2 bg-green-600 text-white rounded-xl hover:bg-green-500 transition cursor-pointer focus:outline-2 focus:outline-offset-2 focus:outline-green-600 focus:bg-green-500 border-radius-1"
+        className="px-4 py-2 bg-green-500 text-white rounded-xl hover:bg-green-600 transition cursor-pointer focus:outline-2 focus:outline-offset-2 focus:outline-green-600 focus:bg-green-600 border-radius-1"
       >
         Adicionar
       </button>

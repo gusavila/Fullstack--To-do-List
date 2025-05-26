@@ -7,8 +7,29 @@ function Register() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
+  const [emailError, setEmailError] = useState("");
+  const [passwordError, setPasswordError] = useState("");
 
   const handleRegister = async () => {
+    setError("");
+    setSuccess("");
+
+    if (!name || !email || !password) {
+      setError("Preencha todos os campos.");
+      return;
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      setError("Digite um e-mail válido.");
+      return;
+    }
+
+    if (password.length < 6) {
+      setError("A senha deve ter pelo menos 6 caracteres.");
+      return;
+    }
+
     try {
       const res = await axios.post("http://localhost:3000/register", {
         name,
@@ -23,8 +44,35 @@ function Register() {
       setPassword("");
     } catch (err) {
       console.error(err);
-      setError("Erro ao registrar conta.");
+      if (err.response && err.response.data && err.response.data.error) {
+        setError(err.response.data.error);
+      } else {
+        setError("Erro ao registrar conta.");
+      }
       setSuccess("");
+    }
+  };
+
+  const handleEmail = async (event) => {
+    const value = event.target.value;
+    setEmail(value);
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(value.trim())) {
+      setEmailError("Digite um e-mail válido.");
+    } else {
+      setEmailError("");
+    }
+  };
+
+  const handlePassword = async (event) => {
+    const value = event.target.value;
+    setPassword(value);
+
+    if (value.length < 6) {
+      setPasswordError("A senha deve ter pelo menos 6 caracteres.");
+    } else {
+      setPasswordError("");
     }
   };
 
@@ -33,11 +81,12 @@ function Register() {
       <div className="bg-white p-6 rounded-xl shadow-xl w-full max-w-md">
         <h2 className="text-2xl font-bold mb-6 text-center">Criar Conta</h2>
 
-        
-
         <div className="mb-4">
-          <label className="block mb-1 text-sm text-gray-700">Nome</label>
+          <label htmlFor="name" className="block mb-1 text-sm text-gray-700">
+            Nome
+          </label>
           <input
+            id="name"
             type="text"
             value={name}
             onChange={(event) => setName(event.target.value)}
@@ -47,33 +96,52 @@ function Register() {
         </div>
 
         <div className="mb-4">
-          <label className="block mb-1 text-sm text-gray-700">Email</label>
+          <label htmlFor="email" className="block mb-1 text-sm text-gray-700">
+            E-mail
+          </label>
           <input
+            id="email"
             type="email"
             value={email}
-            onChange={(event) => setEmail(event.target.value)}
+            onChange={handleEmail}
             placeholder="Seu email"
             className="w-full px-4 py-2 border border-gray-300 rounded-xl focus:outline-none focus:ring focus:ring-green-400"
           />
+          {emailError && (
+            <p className="text-red-500 text-sm mt-1">{emailError}</p>
+          )}
         </div>
 
         <div className="mb-6">
-          <label className="block mb-1 text-sm text-gray-700">Senha</label>
+          <label
+            htmlFor="password"
+            className="block mb-1 text-sm text-gray-700"
+          >
+            Senha
+          </label>
           <input
+            id="password"
             type="password"
             value={password}
-            onChange={(event) => setPassword(event.target.value)}
+            onChange={handlePassword}
             placeholder="Crie uma senha"
             className="w-full px-4 py-2 border border-gray-300 rounded-xl focus:outline-none focus:ring focus:ring-green-400"
           />
+          {passwordError && (
+            <p className="text-red-500 text-sm mt-1">{passwordError}</p>
+          )}
         </div>
 
-        {error && <p className="text-red-500 text-sm mb-4 text-center">{error}</p>}
-        {success && <p className="text-green-600 text-sm mb-4 text-center">{success}</p>}
+        {error && (
+          <p className="text-red-500 text-sm mb-4 text-center">{error}</p>
+        )}
+        {success && (
+          <p className="text-green-600 text-sm mb-4 text-center">{success}</p>
+        )}
 
         <button
           onClick={handleRegister}
-          className="w-full px-4 py-2 bg-green-600 text-white rounded-xl hover:bg-green-500 transition cursor-pointer focus:outline-2 focus:outline-offset-2 focus:outline-green-600 focus:bg-green-500 border-radius-1"
+          className="w-full px-4 py-2 bg-green-500 text-white rounded-xl hover:bg-green-600 transition cursor-pointer focus:outline-2 focus:outline-offset-2 focus:outline-green-600 focus:bg-green-600 border-radius-1"
         >
           Cadastrar
         </button>

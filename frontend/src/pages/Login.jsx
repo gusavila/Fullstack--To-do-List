@@ -55,16 +55,16 @@ function Login() {
 
         <button
           onClick={handleLogin}
-          className="w-full px-4 py-2 bg-green-600 text-white rounded-xl hover:bg-green-500 transition cursor-pointer focus:outline-2 focus:outline-offset-2 focus:outline-green-500 focus:bg-green-500 border-radius-1 mb-2"
+          className="w-full px-4 py-2 bg-green-500 text-white rounded-xl hover:bg-green-600 transition cursor-pointer focus:outline-2 focus:outline-offset-2 focus:outline-green-600 focus:bg-green-600 border-radius-1 mb-2"
         >
           Entrar
         </button>
 
         <a
           href="/register"
-          className="block text-center w-full px-4 py-2 bg-gray-100 rounded-xl hover:bg-gray-50 cursor-pointer focus:outline-2 focus:outline-offset-2 focus:outline-gray-50 focus:bg-gray-50"
+          className="block text-center w-full px-4 py-2 bg-gray-100 rounded-xl hover:bg-gray-200 cursor-pointer focus:outline-2 focus:outline-offset-2 focus:outline-gray-200 focus:bg-gray-200"
         >
-          Não possui uma conta? Criar uma.
+          Criar conta
         </a>
       </div>
     </div>

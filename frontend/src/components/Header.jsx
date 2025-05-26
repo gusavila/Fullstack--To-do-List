@@ -17,7 +17,7 @@ function Header() {
         </div>
         
         <div className="lg:flex lg:flex-1 lg:justify-end">
-          <a href="/" className="text-lg font-semibold px-4 py-2 text-green-600 rounded-xl hover:text-green-500 transition">
+          <a href="/" className="text-lg font-semibold px-4 py-2 text-green-500 rounded-xl hover:text-green-600 transition">
             Entrar <span aria-hidden="true">&rarr;</span>
           </a>
         </div>

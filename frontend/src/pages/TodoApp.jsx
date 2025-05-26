@@ -1,5 +1,11 @@
 import { useEffect, useState } from "react";
-import { fetchTodos, addTodo, deleteTodo } from "../services/api.js";
+import {
+  fetchTodos,
+  addTodo,
+  deleteTodo,
+  updateTodo,
+  toggleTodo,
+} from "../services/api.js";
 import TodoForm from "../components/TodoForm";
 import TodoList from "../components/TodoList";
 
@@ -33,20 +39,41 @@ function TodoApp() {
     }
   };
 
-  const handleToggleTask = (id) => {
-    setTasks(
-      prevTasks.map((task) =>
-        task.id === id ? { ...task, completed: !task.completed } : task
-      )
-    );
+  const handleToggleTask = async (id) => {
+    const taskToToggle = tasks.find((t) => t.id === id);
+    const updatedCompleted = !taskToToggle.completed;
+
+    try {
+      const res = await toggleTodo(id, updatedCompleted);
+      setTasks((prev) =>
+        prev.map((t) =>
+          t.id === id ? { ...t, completed: res.data.completed } : t
+        )
+      );
+    } catch (err) {
+      console.error("Erro ao alternar tarefa:", err);
+    }
   };
 
   const handleDeleteTask = async (id) => {
     try {
       await deleteTodo(id);
-      setTasks((prev) => prev.filter((t) => t.id !== id));
+      setTasks((prevTasks) => prevTasks.filter((task) => task.id !== id));
     } catch (err) {
       console.error("Erro ao deletar tarefa:", err);
+    }
+  };
+
+  const handleUpdateTask = async (id, updatedData) => {
+    try {
+      const res = await updateTodo(id, updatedData);
+      const updatedTask = res.data;
+
+      setTasks((prevTasks) =>
+        prevTasks.map((task) => (task.id === id ? updatedTask : task))
+      );
+    } catch (err) {
+      console.error("Erro ao atualizar tarefa:", err);
     }
   };
 
@@ -66,6 +93,7 @@ function TodoApp() {
           tasks={tasks}
           onToggle={handleToggleTask}
           onDelete={handleDeleteTask}
+          onUpdate={handleUpdateTask}
         />
       </div>
     </div>

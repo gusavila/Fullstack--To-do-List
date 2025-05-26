@@ -1,6 +1,6 @@
 import TodoItem from "./TodoItem";
 
-function TodoList({ tasks, onToggle, onDelete }) {
+function TodoList({ tasks, onToggle, onDelete, onUpdate }) {
   return (
     <ul className="space-y-2">
       {tasks.map((task) => (
@@ -9,6 +9,7 @@ function TodoList({ tasks, onToggle, onDelete }) {
           task={task}
           onToggle={onToggle}
           onDelete={onDelete}
+          onUpdate={onUpdate}
         />
       ))}
     </ul>

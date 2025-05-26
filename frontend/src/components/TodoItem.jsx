@@ -1,6 +1,28 @@
+import { useState, useRef, useEffect } from "react";
 import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from '@mui/icons-material/Edit';
+import CheckIcon from '@mui/icons-material/Check';
 
-function TodoItem({ task, onToggle, onDelete }) {
+function TodoItem({ task, onToggle, onDelete, onUpdate }) {
+  const [isEditing, setIsEditing] = useState(false);
+  const [editText, setEditText] = useState(task.text);
+
+  const inputRef = useRef(null);
+
+  useEffect(() =>{
+    if (isEditing && inputRef.current) {
+      inputRef.current.focus();
+      inputRef.current.select();
+    }
+  }, [isEditing]);
+
+  const handleSave = () => {
+    if (editText.trim()) {
+      onUpdate(task.id, { text: editText });
+      setIsEditing(false);
+    }
+  };
+
   return (
     <li
       key={task.id}
@@ -10,9 +32,41 @@ function TodoItem({ task, onToggle, onDelete }) {
           : "bg-gray-50"
       }`}
     >
-      <span onClick={() => onToggle(task.id)} className="cursor-pointer flex-1">
-        {task.text}
-      </span>
+      {isEditing ? (
+        <input
+          ref={inputRef} 
+          value={editText}
+          onChange={(event) => setEditText(event.target.value)}
+          onKeyDown={(event) => {
+            if (event.key === "Enter") handleSave();
+          }}
+          className="flex-1 outline-none"
+        />
+      ) : (
+        <span
+          onClick={() => onToggle(task.id)}
+          className="cursor-pointer flex-1"
+        >
+          {task.text}
+        </span>
+      )}
+
+      {isEditing ? (
+        <button
+          onClick={handleSave}
+          className="text-green-600 hover:text-green-500 ml-2"
+        >
+          Salvar <CheckIcon className="pb-1" />
+        </button>
+      ) : (
+        <button
+          onClick={() => setIsEditing(true)}
+          className="text-gray-500 hover:text-blue-500 ml-2"
+        >
+          <EditIcon />
+        </button>
+      )}
+
       <button
         onMouseDown={(event) => {
           event.preventDefault();

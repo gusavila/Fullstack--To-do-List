@@ -1,4 +1,10 @@
-app.post("/register", async (req, res) => {
+import express from "express";
+import bcrypt from "bcrypt";
+import db from "../db.js";
+
+const router = express.Router();
+
+router.post("/register", async (req, res) => {
   const { name, email, password } = req.body;
 
   if (!name || !email || !password) {
@@ -21,9 +27,16 @@ app.post("/register", async (req, res) => {
       [name, email, hashedPassword]
     );
 
-    res.status(201).json({ message: "Usuário registrado com sucesso", user: result.rows[0] });
+    res
+      .status(201)
+      .json({
+        message: "Usuário registrado com sucesso",
+        user: result.rows[0],
+      });
   } catch (err) {
     console.error("Erro no registro:", err);
     res.status(500).json({ error: "Erro ao registrar usuário." });
   }
 });
+
+export default router;

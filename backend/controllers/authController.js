@@ -1,40 +1,66 @@
-import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
-import db from "../db";
-import env from "dotenv";
+import {
+  getAllTodos,
+  insertTodo,
+  searchTodo,
+  modifyTodo,
+  removeTodo,
+} from "../models/todoModel.js";
 
-env.config();
-
-const JWT_SECRET = process.env.JWT_SECRET || "minha_chave_secreta";
-const saltRounds = 10;
-
-exports.register = async (req, res) => {
-  const { username, password } = req.body;
+export const getTodos = async (req, res) => {
   try {
-    const hashedPassword = await bcrypt.hash(password, saltRounds);
-    await db.query("INSERT INTO users (username, password) VALUES ($1, $2)", [
-      username,
-      hashedPassword,
-    ]);
-    res.status(201).json({ message: "Usuário criado com sucesso!" });
+    const todos = await getAllTodos();
+    res.json(todos);
   } catch (err) {
-    res.status(500).json({ error: "Erro ao registrar usuário." });
+    console.error(err);
+    res.status(500).json({ error: "Erro interno do servidor" });
   }
 };
 
-exports.login = async (req, res) => {
-  const { username, password } = req.body;
+export const createTodo = async (req, res) => {
+  const { text } = req.body;
+  console.log("Recebido POST:", text);
   try {
-    const result = await db.query("SELECT * FROM users WHERE username = $1", [
-      username,
-    ]);
-    const user = result.rows[0];
-    if (!user || !(await bcrypt.compare(password, user.password))) {
-      return res.status(401).json({ error: "Credenciais inválidas" });
-    }
-    const token = jwt.sign({ userId: user.id }, JWT_SECRET, { expiresIn: "2h" });
-    res.json({ token });
+    const newTodo = await insertTodo(text);
+    res.status(201).json(newTodo);
   } catch (err) {
-    res.status(500).json({ error: "Erro ao fazer login." });
+    console.log(err);
+    res.status(500).json({ error: "Erro interno do servidor" });
+  }
+};
+
+export const updateTodo = async (req, res) => {
+  const { id } = req.params;
+  const { completed, text } = req.body;
+
+  try {
+    const existing = await searchTodo(id);
+
+    if (existing.rowCount === 0) {
+      return res.status(404).json({ error: "Tarefa não encontrada" });
+    }
+
+    const currentTask = existing.rows[0];
+
+    const updatedCompleted =
+      completed !== undefined ? completed : currentTask.completed;
+    const updatedText = text !== undefined ? text : currentTask.text;
+
+    const updatedTodo = await modifyTodo(updatedCompleted, updatedText, id);
+
+    res.json(updatedTodo);
+  } catch (err) {
+    console.error("Erro ao atualizar tarefa:", err);
+    res.status(500).json({ error: "Erro ao atualizar tarefa" });
+  }
+};
+
+export const deleteTodo = async (req, res) => {
+  const { id } = req.params;
+  try {
+    await removeTodo(id);
+    res.status(204).send();
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Erro interno do servidor" });
   }
 };

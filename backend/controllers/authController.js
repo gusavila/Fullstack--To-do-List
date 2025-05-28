@@ -1,66 +1,29 @@
-import {
-  getAllTodos,
-  insertTodo,
-  searchTodo,
-  modifyTodo,
-  removeTodo,
-} from "../models/todoModel.js";
+import bcrypt from "bcrypt";
+import { verifyExistingUser, getNewUser } from "../models/userModel.js";
 
-export const getTodos = async (req, res) => {
-  try {
-    const todos = await getAllTodos();
-    res.json(todos);
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: "Erro interno do servidor" });
+export const registerUser = async (req, res) => {
+  const { name, email, password } = req.body;
+
+  if (!name || !email || !password) {
+    return res.status(400).json({ error: "Preencha todos os campos." });
   }
-};
-
-export const createTodo = async (req, res) => {
-  const { text } = req.body;
-  console.log("Recebido POST:", text);
-  try {
-    const newTodo = await insertTodo(text);
-    res.status(201).json(newTodo);
-  } catch (err) {
-    console.log(err);
-    res.status(500).json({ error: "Erro interno do servidor" });
-  }
-};
-
-export const updateTodo = async (req, res) => {
-  const { id } = req.params;
-  const { completed, text } = req.body;
 
   try {
-    const existing = await searchTodo(id);
-
-    if (existing.rowCount === 0) {
-      return res.status(404).json({ error: "Tarefa não encontrada" });
+    const existingUser = await verifyExistingUser(email);
+    if (existingUser.rows.length > 0) {
+      return res.status(409).json({ error: "E-mail já cadastrado." });
     }
 
-    const currentTask = existing.rows[0];
+    const hashedPassword = await bcrypt.hash(password, 10);
 
-    const updatedCompleted =
-      completed !== undefined ? completed : currentTask.completed;
-    const updatedText = text !== undefined ? text : currentTask.text;
+    const newUser = await getNewUser(name, email, hashedPassword);
 
-    const updatedTodo = await modifyTodo(updatedCompleted, updatedText, id);
-
-    res.json(updatedTodo);
+    res.status(201).json({
+      message: "Usuário registrado com sucesso",
+      user: newUser.rows[0],
+    });
   } catch (err) {
-    console.error("Erro ao atualizar tarefa:", err);
-    res.status(500).json({ error: "Erro ao atualizar tarefa" });
-  }
-};
-
-export const deleteTodo = async (req, res) => {
-  const { id } = req.params;
-  try {
-    await removeTodo(id);
-    res.status(204).send();
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: "Erro interno do servidor" });
+    console.error("Erro no registro:", err);
+    res.status(500).json({ error: "Erro ao registrar usuário." });
   }
 };

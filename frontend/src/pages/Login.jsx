@@ -1,21 +1,37 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
 
-  const handleLogin = async () => {
+  const navigate = useNavigate();
+
+  const handleLogin = async (event) => {
+    event.preventDefault();
+    setError("");
+    setSuccess("");
+
+    if (!email || !password) {
+      setError("Preencha todos os campos.");
+      return;
+    }
+
     try {
       const res = await axios.post("http://localhost:3000/login", {
         email,
         password,
       });
 
+      setSuccess("Login realizado com sucesso!");
+      console.log("Usuário logado:", res.data.user);
+
       localStorage.setItem("token", res.data.token);
 
-      window.location.href = "/todos";
+      navigate("/todos");
     } catch (err) {
       console.error(err);
       setError("Email ou senha inválidos.");
@@ -27,9 +43,7 @@ function Login() {
       <div className="bg-white p-6 rounded-xl shadow-xl w-full max-w-md">
         <h2 className="text-2xl font-bold mb-6 text-center">Login</h2>
 
-        {error && (
-          <p className="text-red-500 mb-4 text-sm text-center">{error}</p>
-        )}
+        
 
         <div className="mb-4">
           <label className="block mb-1 text-sm text-gray-700">Email</label>
@@ -52,6 +66,10 @@ function Login() {
             placeholder="Digite sua senha"
           />
         </div>
+
+        {error && (
+          <p className="text-red-500 mb-4 text-sm text-center">{error}</p>
+        )}
 
         <button
           onClick={handleLogin}

@@ -10,8 +10,7 @@ function Login() {
 
   const navigate = useNavigate();
 
-  const handleLogin = async (event) => {
-    event.preventDefault();
+  const handleLogin = async () => {
     setError("");
     setSuccess("");
 
@@ -38,12 +37,16 @@ function Login() {
     }
   };
 
+  const handleKeyDown = async (event) => {
+    if (event.key === "Enter") {
+      handleLogin();
+    }
+  };
+
   return (
     <div className="flex items-center justify-center mt-14 bg-gray-100">
       <div className="bg-white p-6 rounded-xl shadow-xl w-full max-w-md">
         <h2 className="text-2xl font-bold mb-6 text-center">Login</h2>
-
-        
 
         <div className="mb-4">
           <label className="block mb-1 text-sm text-gray-700">Email</label>
@@ -51,8 +54,11 @@ function Login() {
             type="email"
             className="w-full px-4 py-2 border border-gray-300 rounded-xl focus:outline-none focus:ring focus:ring-green-400"
             value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={(e) => {
+              setEmail(e.target.value), setError("");
+            }}
             placeholder="Digite seu email"
+            onKeyDown={handleKeyDown}
           />
         </div>
 
@@ -62,8 +68,11 @@ function Login() {
             type="password"
             className="w-full px-4 py-2 border border-gray-300 rounded-xl focus:outline-none focus:ring focus:ring-green-400"
             value={password}
-            onChange={(event) => setPassword(event.target.value)}
+            onChange={(event) => {
+              setPassword(event.target.value), setError("");
+            }}
             placeholder="Digite sua senha"
+            onKeyDown={handleKeyDown}
           />
         </div>
 

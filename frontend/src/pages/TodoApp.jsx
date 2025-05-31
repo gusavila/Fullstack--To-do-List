@@ -12,6 +12,7 @@ import TodoList from "../components/TodoList";
 function TodoApp() {
   const [task, setTask] = useState("");
   const [tasks, setTasks] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const load = async () => {
@@ -24,12 +25,23 @@ function TodoApp() {
   const handleAddTask = async () => {
     if (task.trim() === "") return;
 
+    const start = Date.now();
+    setLoading(true);
     try {
       const res = await addTodo(task);
+
+      const elapsed = Date.now() - start;
+      const minDelay = 4000;
+      if (elapsed < minDelay) {
+        await new Promise((resolve) => setTimeout(resolve, minDelay - elapsed));
+      }
+
       setTasks([...tasks, res.data]);
       setTask("");
     } catch (err) {
       console.error("Erro ao adicionar tarefa:", err);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -88,6 +100,7 @@ function TodoApp() {
           setTask={setTask}
           onAddTask={handleAddTask}
           onKeyDown={handleKeyDown}
+          loading={loading}
         />
         <TodoList
           tasks={tasks}

@@ -5,6 +5,7 @@ import CheckIcon from "@mui/icons-material/Check";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import { motion } from "framer-motion";
+import Tooltip from "./ToolTip";
 
 function TodoItem({ task, onToggle, onDelete, onUpdate }) {
   const [isEditing, setIsEditing] = useState(false);
@@ -70,34 +71,43 @@ function TodoItem({ task, onToggle, onDelete, onUpdate }) {
         ) : (
           <div className="hidden group-hover:flex group-focus-within:flex space-x-2">
             {isEditing ? (
-              <button
-                onClick={handleSave}
-                className="text-green-600 hover:text-green-500"
-              >
-                <CheckIcon />
-              </button>
+              <Tooltip content="Salvar">
+                <button
+                  onClick={handleSave}
+                  className="text-green-600 hover:text-green-500"
+                >
+                  <CheckIcon />
+                </button>
+              </Tooltip>
             ) : (
-              <button
-                onClick={() => setIsEditing(true)}
-                className="text-gray-500 hover:text-blue-500"
-              >
-                <EditIcon />
-              </button>
+              <Tooltip content="Editar">
+                <button
+                  onClick={() => setIsEditing(true)}
+                  className="text-gray-500 hover:text-blue-500"
+                >
+                  <EditIcon />
+                </button>
+              </Tooltip>
             )}
 
-            <button
-              onMouseDown={(e) => e.preventDefault()}
-              onClick={() => onDelete(task.id)}
-              className="text-gray-500 hover:text-red-400 focus:text-red-400 focus:outline-none"
-            >
-              <DeleteIcon />
-            </button>
-            <button
-              onClick={() => onToggle(task.id)}
-              className="text-gray-500 hover:text-green-500"
-            >
-              <CheckCircleOutlineIcon />
-            </button>
+            <Tooltip content="Deletar">
+              <button
+                onMouseDown={(e) => e.preventDefault()}
+                onClick={() => onDelete(task.id)}
+                className="text-gray-500 hover:text-red-400 focus:text-red-400 focus:outline-none"
+              >
+                <DeleteIcon />
+              </button>
+            </Tooltip>
+
+            <Tooltip content="Feito">
+              <button
+                onClick={() => onToggle(task.id)}
+                className="text-gray-500 hover:text-green-500"
+              >
+                <CheckCircleOutlineIcon />
+              </button>
+            </Tooltip>
           </div>
         )}
       </div>

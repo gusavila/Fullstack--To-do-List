@@ -1,6 +1,10 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
+
+const MotionLink = motion(Link);
 
 function Login() {
   const [email, setEmail] = useState("");
@@ -46,7 +50,9 @@ function Login() {
   return (
     <div className="flex items-center justify-center mt-14 bg-gray-100">
       <div className="bg-white p-6 rounded-xl shadow-xl w-full max-w-md">
-        <h2 className="text-2xl font-bold mb-6 text-center">Login</h2>
+        <h2 className="text-2xl font-bold mb-6 text-center">
+          Entre em sua conta
+        </h2>
 
         <div className="mb-4">
           <label className="block mb-1 text-sm text-gray-700">Email</label>
@@ -80,19 +86,23 @@ function Login() {
           <p className="text-red-500 mb-4 text-sm text-center">{error}</p>
         )}
 
-        <button
+        <motion.button
           onClick={handleLogin}
+          whileHover={{ scale: 1.02 }}
+          whileTap={{ scale: 0.95 }}
           className="w-full px-4 py-2 bg-green-500 text-white rounded-xl hover:bg-green-600 transition cursor-pointer focus:outline-2 focus:outline-offset-2 focus:outline-green-600 focus:bg-green-600 border-radius-1 mb-2"
         >
           Entrar
-        </button>
+        </motion.button>
 
-        <a
-          href="/register"
+        <MotionLink
+          to="/register"
+          whileHover={{ scale: 1.02 }}
+          whileTap={{ scale: 0.95 }}
           className="block text-center w-full px-4 py-2 bg-gray-100 rounded-xl hover:bg-gray-200 cursor-pointer focus:outline-2 focus:outline-offset-2 focus:outline-gray-200 focus:bg-gray-200"
         >
-          Criar conta
-        </a>
+          Criar uma conta
+        </MotionLink>
       </div>
     </div>
   );

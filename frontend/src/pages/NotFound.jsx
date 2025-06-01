@@ -1,4 +1,5 @@
 import imagem from "../assets/images/greenpaper.png";
+import { Link } from "react-router-dom";
 
 function NotFound() {
   return (
@@ -13,20 +14,20 @@ function NotFound() {
             Desculpa, não conseguimos achar a página que você está procurando.
           </p>
           <div className="mt-10 flex items-center justify-center gap-x-6">
-            <a
-              href="/todos"
-              className="rounded-md bg-green-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-xs hover:bg-green-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+            <Link
+              to="/todos"
+              className="rounded-md bg-green-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-xs hover:bg-green-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:bg-green-500 focus-visible:outline-green-600"
             >
               Voltar ao início
-            </a>
+            </Link>
           </div>
           <div className="w-full flex items-center justify-center">
-            <img className="w-70" src={imagem}  alt="" />
+            <img className="w-70" src={imagem} alt="" />
           </div>
         </div>
       </main>
     </>
-  )
+  );
 }
 
 export default NotFound;

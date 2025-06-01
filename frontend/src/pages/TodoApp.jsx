@@ -31,7 +31,7 @@ function TodoApp() {
       const res = await addTodo(task);
 
       const elapsed = Date.now() - start;
-      const minDelay = 400;
+      const minDelay = 300;
       if (elapsed < minDelay) {
         await new Promise((resolve) => setTimeout(resolve, minDelay - elapsed));
       }
@@ -92,7 +92,7 @@ function TodoApp() {
   return (
     <div className="bg-gray-100 flex items-center justify-center p-4 mt-14">
       <div className="w-full max-w-md bg-white shadow-xl rounded-2xl p-6">
-        <h1 className="text-2xl font-bold mb-4 text-center text-gray-800">
+        <h1 className="text-2xl font-bold mb-4 text-center">
           Lista de Tarefa
         </h1>
         <TodoForm

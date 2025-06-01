@@ -1,5 +1,9 @@
 import { useState } from "react";
 import axios from "axios";
+import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
+
+const MotionLink = motion(Link);
 
 function Register() {
   const [name, setName] = useState("");
@@ -79,7 +83,7 @@ function Register() {
   return (
     <div className="flex items-center justify-center mt-14 bg-gray-100">
       <div className="bg-white p-6 rounded-xl shadow-xl w-full max-w-md">
-        <h2 className="text-2xl font-bold mb-6 text-center">Criar Conta</h2>
+        <h2 className="text-2xl font-bold mb-6 text-center">Crie a sua conta</h2>
 
         <div className="mb-4">
           <label htmlFor="name" className="block mb-1 text-sm text-gray-700">
@@ -139,12 +143,23 @@ function Register() {
           <p className="text-green-600 text-sm mb-4 text-center">{success}</p>
         )}
 
-        <button
+        <motion.button
           onClick={handleRegister}
-          className="w-full px-4 py-2 bg-green-500 text-white rounded-xl hover:bg-green-600 transition cursor-pointer focus:outline-2 focus:outline-offset-2 focus:outline-green-600 focus:bg-green-600 border-radius-1"
+          whileHover={{ scale: 1.02 }}
+          whileTap={{ scale:0.95 }}
+          className="w-full px-4 py-2 bg-green-500 text-white rounded-xl hover:bg-green-600 transition cursor-pointer focus:outline-2 focus:outline-offset-2 focus:outline-green-600 focus:bg-green-600 border-radius-1 mb-2"
         >
           Cadastrar
-        </button>
+        </motion.button>
+
+        <MotionLink
+          to="/"
+          whileHover={{ scale: 1.02 }}
+          whileTap={{ scale: 0.95 }}
+          className="block text-center w-full px-4 py-2 bg-gray-100 rounded-xl hover:bg-gray-200 cursor-pointer focus:outline-2 focus:outline-offset-2 focus:outline-gray-200 focus:bg-gray-200"
+        >
+          Já possuí uma conta? Entrar
+        </MotionLink>
       </div>
     </div>
   );

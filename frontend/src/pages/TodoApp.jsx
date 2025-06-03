@@ -8,16 +8,36 @@ import {
 } from "../services/api.js";
 import TodoForm from "../components/TodoForm";
 import TodoList from "../components/TodoList";
+import LoadingTodo from "../components/LoadingTodo.jsx";
 
 function TodoApp() {
   const [task, setTask] = useState("");
   const [tasks, setTasks] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [loadingTodoList, setLoadingTodoList] = useState(false);
 
   useEffect(() => {
+    setLoadingTodoList(true);
+
     const load = async () => {
-      const res = await fetchTodos();
-      setTasks(res.data);
+      const start = Date.now();
+      try {
+        const res = await fetchTodos();
+
+        const elapsed = Date.now() - start;
+        const minDelay = 300;
+        if (elapsed < minDelay) {
+          await new Promise((resolve) =>
+            setTimeout(resolve, minDelay - elapsed)
+          );
+        }
+
+        setTasks(res.data);
+      } catch (err) {
+        console.error("Erro ao carregar tarefas:", err);
+      } finally {
+        setLoadingTodoList(false);
+      }
     };
     load();
   }, []);
@@ -90,25 +110,29 @@ function TodoApp() {
   };
 
   return (
-    <div className="bg-gray-100 flex items-center justify-center p-4 mt-14">
-      <div className="w-full max-w-md bg-white shadow-xl rounded-2xl p-6">
-        <h1 className="text-2xl font-bold mb-4 text-center">
-          Lista de Tarefa
-        </h1>
-        <TodoForm
-          task={task}
-          setTask={setTask}
-          onAddTask={handleAddTask}
-          onKeyDown={handleKeyDown}
-          loading={loading}
-        />
-        <TodoList
-          tasks={tasks}
-          onToggle={handleToggleTask}
-          onDelete={handleDeleteTask}
-          onUpdate={handleUpdateTask}
-        />
-      </div>
+    <div className="bg-gray-100 flex-row place-items-center p-4 mt-14">
+      {loadingTodoList ? (
+        <LoadingTodo className="w-full max-w-md bg-white shadow-xl rounded-2xl p-6"/>
+      ) : (
+        <div className="w-full max-w-md bg-white shadow-xl rounded-2xl p-6">
+          <h1 className="text-2xl font-bold mb-4 text-center">
+            Lista de Tarefa
+          </h1>
+          <TodoForm
+            task={task}
+            setTask={setTask}
+            onAddTask={handleAddTask}
+            onKeyDown={handleKeyDown}
+            loading={loading}
+          />
+          <TodoList
+            tasks={tasks}
+            onToggle={handleToggleTask}
+            onDelete={handleDeleteTask}
+            onUpdate={handleUpdateTask}
+          />
+        </div>
+      )}
     </div>
   );
 }

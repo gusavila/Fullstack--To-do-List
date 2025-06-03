@@ -16,14 +16,12 @@ const TodoForm = ({ task, setTask, onAddTask, onKeyDown, loading }) => {
         whileTap={{ scale: 0.95 }}
         disabled={loading}
         onClick={onAddTask}
-        onMouseDown={(event) => {
-          event.preventDefault();
-        }}
-        className={`flex items-center justify-center gap-2 px-4 py-2 bg-green-500 text-white font-semibold rounded-xl shadow-md transition ${
+        className={`flex items-center justify-center gap-2 px-4 py-2 bg-green-500 text-white font-semibold rounded-xl shadow-md cursor-pointer ${
           loading ? "opacity-70 cursor-not-allowed" : "hover:bg-green-600"
         }`}
       >
         {loading ? (
+          
           <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
         ) : (
           "Adicionar"

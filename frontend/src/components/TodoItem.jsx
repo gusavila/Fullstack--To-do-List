@@ -32,8 +32,8 @@ function TodoItem({ task, onToggle, onDelete, onUpdate }) {
       initial={{ opacity: 0, y: -10 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: 10 }}
-      transition={{ duration: 0.2 }}
-      className={`group flex justify-between items-center p-3 rounded-xl shadow transition ${
+      transition={{ duration: 0.3 }}
+      className={`group flex justify-between items-center p-3 rounded-xl shadow ${
         task.completed ? "bg-green-100 text-gray-500" : "bg-gray-50"
       }`}
     >
@@ -61,52 +61,62 @@ function TodoItem({ task, onToggle, onDelete, onUpdate }) {
       <div className="ml-2 flex items-center space-x-2">
         {task.completed ? (
           <div>
-            <button
+            <motion.button
               onClick={() => onToggle(task.id)}
-              className="text-green-500 hover:text-green-600"
+              whileHover={{ scale: 1.2 }}
+              whileTap={{ scale: 0.95 }}
+              className="text-green-500 hover:text-green-600 cursor-pointer"
             >
               <CheckCircleIcon />
-            </button>
+            </motion.button>
           </div>
         ) : (
           <div className="hidden group-hover:flex group-focus-within:flex space-x-2">
             {isEditing ? (
               <Tooltip content="Salvar">
-                <button
+                <motion.button
                   onClick={handleSave}
-                  className="text-green-600 hover:text-green-500"
+                  whileHover={{ scale: 1.2 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="text-green-600 hover:text-green-500 cursor-pointer"
                 >
                   <CheckIcon />
-                </button>
+                </motion.button>
               </Tooltip>
             ) : (
               <Tooltip content="Editar">
-                <button
+                <motion.button
                   onClick={() => setIsEditing(true)}
-                  className="text-gray-500 hover:text-blue-500"
+                  whileHover={{ scale: 1.2 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="text-gray-500 hover:text-blue-500 cursor-pointer"
                 >
                   <EditIcon />
-                </button>
+                </motion.button>
               </Tooltip>
             )}
 
             <Tooltip content="Deletar">
-              <button
+              <motion.button
                 onMouseDown={(e) => e.preventDefault()}
                 onClick={() => onDelete(task.id)}
-                className="text-gray-500 hover:text-red-400 focus:text-red-400 focus:outline-none"
+                whileHover={{ scale: 1.2 }}
+                whileTap={{ scale: 0.95 }}
+                className="text-gray-500 hover:text-red-400 focus:text-red-400 focus:outline-none cursor-pointer"
               >
                 <DeleteIcon />
-              </button>
+              </motion.button>
             </Tooltip>
 
             <Tooltip content="Feito">
-              <button
+              <motion.button
                 onClick={() => onToggle(task.id)}
-                className="text-gray-500 hover:text-green-500"
+                whileHover={{ scale: 1.2 }}
+                whileTap={{ scale: 0.95 }}
+                className="text-gray-500 hover:text-green-500 cursor-pointer"
               >
                 <CheckCircleOutlineIcon />
-              </button>
+              </motion.button>
             </Tooltip>
           </div>
         )}

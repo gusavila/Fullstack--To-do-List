@@ -1,6 +1,6 @@
 // components/Tooltip.jsx
-import { motion, AnimatePresence } from 'framer-motion';
-import { useState } from 'react';
+import { motion, AnimatePresence } from "framer-motion";
+import { useState } from "react";
 
 function Tooltip({ content, children }) {
   const [hovered, setHovered] = useState(false);
@@ -16,7 +16,7 @@ function Tooltip({ content, children }) {
       <AnimatePresence>
         {hovered && (
           <motion.div
-            className="absolute bottom-full mb-1 left-1/2 -translate-x-1/2 bg-black/80 text-white text-xs px-2 py-1 rounded-md shadow-lg z-50"
+            className="absolute bottom-full mb-1 left-1/2 -translate-x-1/2 bg-white font-medium border border-gray-300 text-xs px-2 py-1 rounded-md shadow-xs shadow-gray-200 z-50"
             initial={{ opacity: 0, y: 6 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 6 }}

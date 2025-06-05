@@ -147,7 +147,7 @@ function Register() {
           onClick={handleRegister}
           whileHover={{ scale: 1.02 }}
           whileTap={{ scale:0.95 }}
-          className="w-full px-4 py-2 bg-green-500 text-white rounded-xl hover:bg-green-600 transition cursor-pointer focus:outline-2 focus:outline-offset-2 focus:outline-green-600 focus:bg-green-600 border-radius-1 mb-2"
+          className="w-full px-4 py-2 bg-green-500 text-white rounded-xl hover:bg-green-600 cursor-pointer focus:outline-2 focus:outline-offset-2 focus:outline-green-600 focus:bg-green-600 border-radius-1 mb-2"
         >
           Cadastrar
         </motion.button>

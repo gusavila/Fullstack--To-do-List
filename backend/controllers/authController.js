@@ -53,7 +53,7 @@ export const loginUser = async (req, res) => {
             return res.status(401).json({error: "Senha incorreta."});
         }
 
-        const token = jwt.sign({ userId: user.id}, JWT_SECRET, {expiresIn: "1h"});
+        const token = jwt.sign({ id: user.id}, JWT_SECRET, { expiresIn: "1h" });
         
         res.json({token, user: {id: user.id, name: user.name, email: user.email}});
     } catch (err) {

@@ -19,20 +19,18 @@ function Header() {
         aria-label="Global"
         className="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8"
       >
-        <div className="flex lg:flex-1">
+        <div className="flex lg:flex-1 items-center">
           <MotionLink
             to="/todos"
             {...motionLinkProps}
-            className="-m-1.5 p-1.5 text-lg flex items-center gap-1"
+            className="-m-1.5 p-1.5 mr-6 text-lg flex items-center gap-1"
           >
             <span className="sr-only">Logo da empresa</span>
             <span className="font-semibold">Todo List</span>
             <AddTaskIcon className="text-green-500" />
           </MotionLink>
-        </div>
-
-        <div className="hidden lg:flex lg:justify-items-center lg:space-x-6">
-          <MotionLink
+           <div className="hidden lg:flex lg:justify-items-center lg:space-x-6">
+          <MotionLink 
             to="#"
             {...motionLinkProps}
             className="-m-1.5 p-1.5 flex gap-1 mx-1 hover:text-green-600"
@@ -47,8 +45,11 @@ function Header() {
             <span className="font-semibold">Contato</span>
           </MotionLink>
         </div>
+        </div>
 
-        <div className="hidden lg:flex lg:flex-1 lg:justify-end space-x-4">
+       
+
+        <div className="hidden  lg:flex lg:flex-1 lg:justify-end space-x-4">
           <MotionLink
             to="/"
             {...motionLinkProps}

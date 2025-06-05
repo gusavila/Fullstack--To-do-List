@@ -7,8 +7,10 @@ import {
 } from "../models/todoModel.js";
 
 export const getTodos = async (req, res) => {
+  const userId = req.user?.id || null;
+
   try {
-    const todos = await getAllTodos();
+    const todos = await getAllTodos(userId);
     res.json(todos);
   } catch (err) {
     console.error(err);
@@ -17,10 +19,11 @@ export const getTodos = async (req, res) => {
 };
 
 export const createTodo = async (req, res) => {
+  const userId = req.user?.id || null;
   const { text } = req.body;
-  console.log("Recebido POST:", text);
+
   try {
-    const newTodo = await insertTodo(text);
+    const newTodo = await insertTodo(text, userId);
     res.status(201).json(newTodo);
   } catch (err) {
     console.log(err);

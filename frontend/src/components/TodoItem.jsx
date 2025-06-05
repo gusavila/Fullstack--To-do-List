@@ -11,6 +11,10 @@ function TodoItem({ task, onToggle, onDelete, onUpdate }) {
   const [isEditing, setIsEditing] = useState(false);
   const [editText, setEditText] = useState(task.text);
   const inputRef = useRef(null);
+  const motionLinkProps = {
+    whileHover: { scale: 1.2 },
+    whileTap: { scale: 0.95 }
+  }
 
   useEffect(() => {
     if (isEditing && inputRef.current) {
@@ -31,8 +35,9 @@ function TodoItem({ task, onToggle, onDelete, onUpdate }) {
       key={task.id}
       initial={{ opacity: 0, y: -10 }}
       animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: 10 }}
-      transition={{ duration: 0.3 }}
+      exit={{ opacity: 0, x: -30 }}
+      transition={{ duration: 0.2 }}
+      whileHover= {{ scale: 1.03, transition: { duration: 0.2 } }}
       className={`group flex justify-between items-center p-3 rounded-xl shadow ${
         task.completed ? "bg-green-100 text-gray-500" : "bg-gray-50"
       }`}
@@ -63,8 +68,7 @@ function TodoItem({ task, onToggle, onDelete, onUpdate }) {
           <div>
             <motion.button
               onClick={() => onToggle(task.id)}
-              whileHover={{ scale: 1.2 }}
-              whileTap={{ scale: 0.95 }}
+              {...motionLinkProps}
               className="text-green-500 hover:text-green-600 cursor-pointer"
             >
               <CheckCircleIcon />
@@ -76,8 +80,7 @@ function TodoItem({ task, onToggle, onDelete, onUpdate }) {
               <Tooltip content="Salvar">
                 <motion.button
                   onClick={handleSave}
-                  whileHover={{ scale: 1.2 }}
-                  whileTap={{ scale: 0.95 }}
+                  {...motionLinkProps}
                   className="text-green-600 hover:text-green-500 cursor-pointer"
                 >
                   <CheckIcon />
@@ -87,8 +90,7 @@ function TodoItem({ task, onToggle, onDelete, onUpdate }) {
               <Tooltip content="Editar">
                 <motion.button
                   onClick={() => setIsEditing(true)}
-                  whileHover={{ scale: 1.2 }}
-                  whileTap={{ scale: 0.95 }}
+                  {...motionLinkProps}
                   className="text-gray-500 hover:text-blue-500 cursor-pointer"
                 >
                   <EditIcon />
@@ -100,8 +102,7 @@ function TodoItem({ task, onToggle, onDelete, onUpdate }) {
               <motion.button
                 onMouseDown={(e) => e.preventDefault()}
                 onClick={() => onDelete(task.id)}
-                whileHover={{ scale: 1.2 }}
-                whileTap={{ scale: 0.95 }}
+                {...motionLinkProps}
                 className="text-gray-500 hover:text-red-400 focus:text-red-400 focus:outline-none cursor-pointer"
               >
                 <DeleteIcon />
@@ -111,8 +112,7 @@ function TodoItem({ task, onToggle, onDelete, onUpdate }) {
             <Tooltip content="Feito">
               <motion.button
                 onClick={() => onToggle(task.id)}
-                whileHover={{ scale: 1.2 }}
-                whileTap={{ scale: 0.95 }}
+                {...motionLinkProps}
                 className="text-gray-500 hover:text-green-500 cursor-pointer"
               >
                 <CheckCircleOutlineIcon />

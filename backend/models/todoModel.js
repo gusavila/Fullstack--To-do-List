@@ -1,14 +1,14 @@
 import db from "../db.js";
 
-export const getAllTodos = async () => {
-  const result = await db.query("SELECT * FROM to_do ORDER BY id ASC");
+export const getAllTodos = async (userId = null) => {
+  const result = await db.query("SELECT * FROM to_do WHERE user_id IS NOT DISTINCT FROM $1 ORDER BY id ASC", [userId]);
   return result.rows;
 };
 
-export const insertTodo = async (text) => {
+export const insertTodo = async (text, userId = null) => {
   const result = await db.query(
-    "INSERT INTO to_do (text) VALUES ($1) RETURNING *",
-    [text]
+    "INSERT INTO to_do (text, user_id) VALUES ($1, $2) RETURNING *",
+    [text, userId]
   );
   return result.rows[0];
 };

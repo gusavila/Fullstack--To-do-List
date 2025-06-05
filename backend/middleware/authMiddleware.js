@@ -15,3 +15,16 @@ export const authenticateToken = (req, res, next) => {
     next();
   });
 };
+
+export const authenticateOptional = (req, res, next) => {
+  const authHeader = req.headers.authorization;
+  if (!authHeader) return next();
+
+  const token = authHeader.split(" ")[1];
+  jwt.verify(token, JWT_SECRET, (err, user) => {
+    if (!err) {
+      req.user = user;
+    }
+    next();
+  });
+};

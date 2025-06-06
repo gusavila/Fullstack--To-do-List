@@ -51,7 +51,7 @@ function TodoApp() {
       const res = await addTodo(task);
 
       const elapsed = Date.now() - start;
-      const minDelay = 300;
+      const minDelay = 200;
       if (elapsed < minDelay) {
         await new Promise((resolve) => setTimeout(resolve, minDelay - elapsed));
       }

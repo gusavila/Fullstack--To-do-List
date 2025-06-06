@@ -33,31 +33,40 @@ export const registerUser = async (req, res) => {
 };
 
 export const loginUser = async (req, res) => {
-    const { email, password } = req.body;
+  const { email, password } = req.body;
 
-    if (!email || !password) {
-        return res.status(400).json({error: "Preencha todos os campos."});
-    }   
+  if (!email || !password) {
+    return res.status(400).json({ error: "Preencha todos os campos." });
+  }
 
-    try {
-        const result = await db.query("SELECT * FROM users WHERE email = $1", [email]);
+  try {
+    const result = await db.query("SELECT * FROM users WHERE email = $1", [
+      email,
+    ]);
 
-        if (result.rows.length === 0) {
-            return res.status(401).json({error: "Usuário não encontrado."});
-        }
-
-        const user = result.rows[0];
-        const isPasswordValid = await bcrypt.compare(password, user.password);
-
-        if(!isPasswordValid) {
-            return res.status(401).json({error: "Senha incorreta."});
-        }
-
-        const token = jwt.sign({ id: user.id}, JWT_SECRET, { expiresIn: "1h" });
-        
-        res.json({token, user: {id: user.id, name: user.name, email: user.email}});
-    } catch (err) {
-        console.error("Erro ao efetuar login", err);
-        res.status(500).json({ error: "Error no servidor." });
+    if (result.rows.length === 0) {
+      return res.status(401).json({ error: "Usuário não encontrado." });
     }
-} ;
+
+    const user = result.rows[0];
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+
+    if (!isPasswordValid) {
+      return res.status(401).json({ error: "Senha incorreta." });
+    }
+
+    const token = jwt.sign(
+      { id: user.id, name: user.name }, 
+      JWT_SECRET, 
+      { expiresIn: "1h", }
+    );
+
+    res.json({
+      token,
+      user: { id: user.id, name: user.name, email: user.email },
+    });
+  } catch (err) {
+    console.error("Erro ao efetuar login", err);
+    res.status(500).json({ error: "Error no servidor." });
+  }
+};

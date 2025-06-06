@@ -3,7 +3,7 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 
-const MotionLink = motion(Link);
+const MotionLink = motion.create(Link);
 
 function Register() {
   const [name, setName] = useState("");

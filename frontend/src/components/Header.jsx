@@ -4,14 +4,18 @@ import { motion } from "framer-motion";
 import { useState } from "react";
 import { Dialog, DialogPanel } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import { useContext } from "react";
+import { AuthContext } from "../context/AuthContext.jsx";
 
 function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const MotionLink = motion(Link);
+  const MotionLink = motion.create(Link);
   const motionLinkProps = {
-  whileHover: { scale: 1.05 },
-  whileTap: { scale: 0.95 }
-};
+    whileHover: { scale: 1.05 },
+    whileTap: { scale: 0.95 },
+  };
+  const { user } = useContext(AuthContext);
 
   return (
     <header className="bg-white shadow-md">
@@ -29,42 +33,50 @@ function Header() {
             <span className="font-semibold">Todo List</span>
             <AddTaskIcon className="text-green-500" />
           </MotionLink>
-           <div className="hidden lg:flex lg:justify-items-center lg:space-x-6">
-          <MotionLink 
-            to="#"
-            {...motionLinkProps}
-            className="-m-1.5 p-1.5 flex gap-1 mx-1 hover:text-green-600"
-          >
-            <span className="font-semibold">Sobre</span>
-          </MotionLink>
-          <MotionLink
-            to="#"
-            {...motionLinkProps}
-            className="-m-1.5 p-1.5 flex gap-1 mx-1 hover:text-green-600"
-          >
-            <span className="font-semibold">Contato</span>
-          </MotionLink>
+          <div className="hidden lg:flex lg:justify-items-center lg:space-x-6">
+            <MotionLink
+              to="#"
+              {...motionLinkProps}
+              className="-m-1.5 p-1.5 flex gap-1 mx-1 hover:text-green-600"
+            >
+              <span className="font-semibold">Sobre</span>
+            </MotionLink>
+            <MotionLink
+              to="#"
+              {...motionLinkProps}
+              className="-m-1.5 p-1.5 flex gap-1 mx-1 hover:text-green-600"
+            >
+              <span className="font-semibold">Contato</span>
+            </MotionLink>
+          </div>
         </div>
-        </div>
 
-       
-
-        <div className="hidden  lg:flex lg:flex-1 lg:justify-end space-x-4">
-          <MotionLink
-            to="/"
-            {...motionLinkProps}
-            className="font-semibold px-4 py-2 rounded-xl hover:text-green-600"
-          >
-            Entrar
-          </MotionLink>
-
-          <MotionLink
-            to="/register"
-            {...motionLinkProps}
-            className="px-4 py-2 bg-green-500 hover:bg-green-600 text-white font-semibold rounded-xl shadow-md"
-          >
-            Criar conta
-          </MotionLink>
+        <div className="hidden lg:flex lg:flex-1 lg:justify-end items-center space-x-4">
+          {user ? (
+            <div className="flex items-center gap-2">
+              <span className="font-semibold text-gray-700">
+                Olá, {user.name}
+              </span>
+              <AccountCircleIcon className="text-green-600" />
+            </div>
+          ) : (
+            <>
+              <MotionLink
+                to="/"
+                {...motionLinkProps}
+                className="font-semibold px-4 py-2 rounded-xl hover:text-green-600"
+              >
+                Entrar
+              </MotionLink>
+              <MotionLink
+                to="/register"
+                {...motionLinkProps}
+                className="px-4 py-2 bg-green-500 hover:bg-green-600 text-white font-semibold rounded-xl shadow-md"
+              >
+                Criar conta
+              </MotionLink>
+            </>
+          )}
         </div>
 
         <div className="flex lg:hidden">

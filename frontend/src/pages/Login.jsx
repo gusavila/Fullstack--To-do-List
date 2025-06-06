@@ -1,25 +1,30 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState, useContext, useEffect } from "react";
+import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
-import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
+import { AuthContext } from "../context/AuthContext";
 
-const MotionLink = motion(Link);
+const MotionLink = motion.create(Link);
 
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
-  const [success, setSuccess] = useState("");
+  const [feedback, setFeedback] = useState({ error: "", success: "" });
+  
+  useEffect(() => {
+  if (localStorage.getItem("token")) {
+    navigate("/todos");
+  }
+}, []);
 
   const navigate = useNavigate();
+  const { login } = useContext(AuthContext);
 
   const handleLogin = async () => {
-    setError("");
-    setSuccess("");
+    setFeedback({ error: "", success: "" });
 
     if (!email || !password) {
-      setError("Preencha todos os campos.");
+      setFeedback({ error:"Preencha todos os campos." });
       return;
     }
 
@@ -29,19 +34,17 @@ function Login() {
         password,
       });
 
-      setSuccess("Login realizado com sucesso!");
-      console.log("Usuário logado:", res.data.user);
+      login(res.data.token);
 
-      localStorage.setItem("token", res.data.token);
-
+      setFeedback({ success: "Login realizado com sucesso!" });
       navigate("/todos");
     } catch (err) {
       console.error(err);
-      setError("Email ou senha inválidos.");
+      setFeedback({ error: "Email ou senha inválidos." });
     }
   };
 
-  const handleKeyDown = async (event) => {
+  const handleKeyDown = (event) => {
     if (event.key === "Enter") {
       handleLogin();
     }
@@ -61,7 +64,7 @@ function Login() {
             className="w-full px-4 py-2 border border-gray-300 rounded-xl focus:outline-none focus:ring focus:ring-green-400"
             value={email}
             onChange={(e) => {
-              setEmail(e.target.value), setError("");
+              setEmail(e.target.value);
             }}
             placeholder="Digite seu email"
             onKeyDown={handleKeyDown}
@@ -75,15 +78,18 @@ function Login() {
             className="w-full px-4 py-2 border border-gray-300 rounded-xl focus:outline-none focus:ring focus:ring-green-400"
             value={password}
             onChange={(event) => {
-              setPassword(event.target.value), setError("");
+              setPassword(event.target.value);
             }}
             placeholder="Digite sua senha"
             onKeyDown={handleKeyDown}
           />
         </div>
 
-        {error && (
-          <p className="text-red-500 mb-4 text-sm text-center">{error}</p>
+        {feedback.error && (
+          <p className="text-red-500 mb-4 text-sm text-center">{feedback.error}</p>
+        )}
+        {feedback.success && (
+          <p className="text-green-500 mb-4 text-sm text-center">{feedback.success}</p>
         )}
 
         <motion.button

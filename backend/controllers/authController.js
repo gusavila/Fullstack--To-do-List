@@ -5,6 +5,12 @@ import { verifyExistingUser, getNewUser } from "../models/userModel.js";
 
 const JWT_SECRET = process.env.JWT_SECRET || "secret";
 
+function generateToken(user) {
+  return jwt.sign({ id: user.id, name: user.name }, JWT_SECRET, {
+    expiresIn: "1h",
+  });
+}
+
 export const registerUser = async (req, res) => {
   const { name, email, password } = req.body;
 
@@ -22,9 +28,14 @@ export const registerUser = async (req, res) => {
 
     const newUser = await getNewUser(name, email, hashedPassword);
 
+    const user = newUser.rows[0];
+
+    const token = generateToken(user);
+
     res.status(201).json({
+      token,
+      user: { id: newUser.id, name: newUser.name, email: newUser.email },
       message: "Usuário registrado com sucesso",
-      user: newUser.rows[0],
     });
   } catch (err) {
     console.error("Erro no registro:", err);
@@ -55,11 +66,7 @@ export const loginUser = async (req, res) => {
       return res.status(401).json({ error: "Senha incorreta." });
     }
 
-    const token = jwt.sign(
-      { id: user.id, name: user.name }, 
-      JWT_SECRET, 
-      { expiresIn: "1h", }
-    );
+    const token = generateToken(user);
 
     res.json({
       token,

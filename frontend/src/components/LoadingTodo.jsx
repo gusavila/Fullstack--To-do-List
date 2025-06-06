@@ -9,7 +9,6 @@ function LoadingTodo() {
               <div className="col-span-2 h-10 rounded-xl bg-gray-200"></div>
               <div className="col-span-1 h-10 rounded-xl bg-gray-200"></div>
             </div>
-            <div className="h-14 rounded-xl bg-gray-200"></div>
           </div>
         </div>
       </div>

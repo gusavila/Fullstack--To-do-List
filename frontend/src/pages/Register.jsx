@@ -1,7 +1,9 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
+import { jwtDecode } from "jwt-decode";
+import { AuthContext } from "../context/AuthContext.jsx";
 
 const MotionLink = motion.create(Link);
 
@@ -13,6 +15,8 @@ function Register() {
   const [success, setSuccess] = useState("");
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
+  const { login } = useContext(AuthContext);
+  const navigate = useNavigate();
 
   const handleRegister = async () => {
     setError("");
@@ -41,19 +45,19 @@ function Register() {
         password,
       });
 
-      setSuccess("Usuário cadastrado com sucesso! Faça login.");
-      setError("");
-      setName("");
-      setEmail("");
-      setPassword("");
+      const token = res.data.token;
+      login(token);
+      navigate("/todos");
     } catch (err) {
-      console.error(err);
-      if (err.response && err.response.data && err.response.data.error) {
-        setError(err.response.data.error);
-      } else {
-        setError("Erro ao registrar conta.");
-      }
-      setSuccess("");
+      console.error("Erro ao registrar:", err);
+      const msg = err.response?.data?.error || "Erro ao registrar conta.";
+      setError(msg);
+    }
+  };
+
+  const handleKeyDown = async (event) => {
+    if (event.key === "Enter") {
+      handleRegister();
     }
   };
 
@@ -83,7 +87,9 @@ function Register() {
   return (
     <div className="flex items-center justify-center mt-14 bg-gray-100">
       <div className="bg-white p-6 rounded-xl shadow-xl w-full max-w-md">
-        <h2 className="text-2xl font-bold mb-6 text-center">Crie a sua conta</h2>
+        <h2 className="text-2xl font-bold mb-6 text-center">
+          Crie a sua conta
+        </h2>
 
         <div className="mb-4">
           <label htmlFor="name" className="block mb-1 text-sm text-gray-700">
@@ -94,6 +100,7 @@ function Register() {
             type="text"
             value={name}
             onChange={(event) => setName(event.target.value)}
+            onKeyDown={handleKeyDown}
             placeholder="Seu nome"
             className="w-full px-4 py-2 border border-gray-300 rounded-xl focus:outline-none focus:ring focus:ring-green-400"
           />
@@ -108,6 +115,7 @@ function Register() {
             type="email"
             value={email}
             onChange={handleEmail}
+            onKeyDown={handleKeyDown}
             placeholder="Seu email"
             className="w-full px-4 py-2 border border-gray-300 rounded-xl focus:outline-none focus:ring focus:ring-green-400"
           />
@@ -128,6 +136,7 @@ function Register() {
             type="password"
             value={password}
             onChange={handlePassword}
+            onKeyDown={handleKeyDown}
             placeholder="Crie uma senha"
             className="w-full px-4 py-2 border border-gray-300 rounded-xl focus:outline-none focus:ring focus:ring-green-400"
           />
@@ -146,7 +155,7 @@ function Register() {
         <motion.button
           onClick={handleRegister}
           whileHover={{ scale: 1.02 }}
-          whileTap={{ scale:0.95 }}
+          whileTap={{ scale: 0.95 }}
           className="w-full px-4 py-2 bg-green-500 text-white rounded-xl hover:bg-green-600 cursor-pointer focus:outline-2 focus:outline-offset-2 focus:outline-green-600 focus:bg-green-600 border-radius-1 mb-2"
         >
           Cadastrar

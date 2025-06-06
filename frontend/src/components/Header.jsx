@@ -1,11 +1,10 @@
 import AddTaskIcon from "@mui/icons-material/AddTask";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { Dialog, DialogPanel } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import { useContext } from "react";
 import { AuthContext } from "../context/AuthContext.jsx";
 
 function Header() {
@@ -15,7 +14,8 @@ function Header() {
     whileHover: { scale: 1.05 },
     whileTap: { scale: 0.95 },
   };
-  const { user } = useContext(AuthContext);
+  const { user, logout } = useContext(AuthContext);
+  const navigate = useNavigate();
 
   return (
     <header className="bg-white shadow-md">
@@ -54,10 +54,20 @@ function Header() {
         <div className="hidden lg:flex lg:flex-1 lg:justify-end items-center space-x-4">
           {user ? (
             <div className="flex items-center gap-2">
-              <span className="font-semibold text-gray-700">
+              <span className="font-light">
                 Olá, {user.name}
               </span>
-              <AccountCircleIcon className="text-green-600" />
+              <AccountCircleIcon className="text-gray-300" fontSize="large" />
+              <motion.button
+                onClick={() => {
+                  logout();
+                  navigate("/");
+                }}
+                {...motionLinkProps}
+                className="font-semibold cursor-pointer text-red-400 ml-4"
+              >
+                Sair
+              </motion.button>
             </div>
           ) : (
             <>
@@ -80,14 +90,15 @@ function Header() {
         </div>
 
         <div className="flex lg:hidden">
-          <button
+          <motion.button
             type="button"
             onClick={() => setMobileMenuOpen(true)}
+            {...motionLinkProps}
             className="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700 cursor-pointer hover:text-green-500"
           >
             <span className="sr-only">Abre o menu principal</span>
             <Bars3Icon aria-hidden="true" className="size-6" />
-          </button>
+          </motion.button>
         </div>
       </nav>
       <Dialog

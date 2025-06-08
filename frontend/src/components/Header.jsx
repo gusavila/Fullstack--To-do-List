@@ -35,7 +35,7 @@ function Header() {
           </MotionLink>
           <div className="hidden lg:flex lg:justify-items-center lg:space-x-6">
             <MotionLink
-              to="#"
+              to="/about"
               {...motionLinkProps}
               className="-m-1.5 p-1.5 flex gap-1 mx-1 hover:text-green-600"
             >

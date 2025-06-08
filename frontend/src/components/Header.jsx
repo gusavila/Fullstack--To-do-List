@@ -25,7 +25,7 @@ function Header() {
       >
         <div className="flex lg:flex-1 items-center">
           <MotionLink
-            to="/todos"
+            to="/"
             {...motionLinkProps}
             className="-m-1.5 p-1.5 mr-6 text-lg flex items-center gap-1"
           >
@@ -54,9 +54,7 @@ function Header() {
         <div className="hidden lg:flex lg:flex-1 lg:justify-end items-center space-x-4">
           {user ? (
             <div className="flex items-center gap-2">
-              <span className="font-light">
-                Olá, {user.name}
-              </span>
+              <span className="font-light">Olá, {user.name}</span>
               <AccountCircleIcon className="text-gray-300" fontSize="large" />
               <motion.button
                 onClick={() => {
@@ -72,7 +70,7 @@ function Header() {
           ) : (
             <>
               <MotionLink
-                to="/"
+                to="/login"
                 {...motionLinkProps}
                 className="font-semibold px-4 py-2 rounded-xl hover:text-green-600"
               >
@@ -90,6 +88,14 @@ function Header() {
         </div>
 
         <div className="flex lg:hidden">
+          <div className="-m-2.5 inline-flex mr-3">
+            {user && (
+              <div className="flex items-center gap-2">
+                <span className="font-light">Olá, {user.name}</span>
+                <AccountCircleIcon className="text-gray-300" fontSize="large" />
+              </div>
+            )}
+          </div>
           <motion.button
             type="button"
             onClick={() => setMobileMenuOpen(true)}
@@ -115,7 +121,7 @@ function Header() {
           <div className="flex items-center justify-between">
             <div className="flex lg:flex-1">
               <MotionLink
-                to="/todos"
+                to="/"
                 {...motionLinkProps}
                 className="-m-1.5 p-1.5 text-lg flex items-center gap-1"
               >
@@ -125,15 +131,28 @@ function Header() {
               </MotionLink>
             </div>
 
-            <motion.button
-              type="button"
-              onClick={() => setMobileMenuOpen(false)}
-              {...motionLinkProps}
-              className="-m-2.5 rounded-md p-2.5 text-gray-700 cursor-pointer hover:text-green-500"
-            >
-              <span className="sr-only">Fechar menu</span>
-              <XMarkIcon aria-hidden="true" className="size-6" />
-            </motion.button>
+            <div className="flex">
+              <div className="-m-2.5 inline-flex mr-3">
+                {user && (
+                  <div className="flex items-center gap-2">
+                    <span className="font-light">Olá, {user.name}</span>
+                    <AccountCircleIcon
+                      className="text-gray-300"
+                      fontSize="large"
+                    />
+                  </div>
+                )}
+              </div>
+              <motion.button
+                type="button"
+                onClick={() => setMobileMenuOpen(false)}
+                {...motionLinkProps}
+                className="-m-2.5 rounded-md p-2.5 text-gray-700 cursor-pointer hover:text-green-500"
+              >
+                <span className="sr-only">Fechar menu</span>
+                <XMarkIcon aria-hidden="true" className="size-6" />
+              </motion.button>
+            </div>
           </div>
 
           <div className="mt-6 flow-root">
@@ -142,7 +161,7 @@ function Header() {
                 <MotionLink
                   to="#"
                   {...motionLinkProps}
-                  className="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold hover:bg-gray-50 hover:text-green-500"
+                  className="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold hover:bg-gray-50 hover:text-green-600"
                 >
                   <span className="font-semibold">Sobre</span>
                 </MotionLink>
@@ -150,29 +169,43 @@ function Header() {
                 <MotionLink
                   to="#"
                   {...motionLinkProps}
-                  className="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold hover:bg-gray-50 hover:text-green-500"
+                  className="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold hover:bg-gray-50 hover:text-green-600"
                 >
                   <span className="font-semibold">Contato</span>
                 </MotionLink>
               </div>
               <div className="py-6">
-                <MotionLink
-                  to="/"
-                  onClick={() => setMobileMenuOpen(false)}
-                  {...motionLinkProps}
-                  className="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold hover:bg-gray-50 hover:text-green-500"
-                >
-                  Entrar
-                </MotionLink>
-
-                <MotionLink
-                  to="/register"
-                  onClick={() => setMobileMenuOpen(false)}
-                  {...motionLinkProps}
-                  className="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold hover:bg-gray-50 hover:text-green-500"
-                >
-                  Criar conta
-                </MotionLink>
+                {user ? (
+                  <MotionLink
+                    onClick={() => {
+                      logout();
+                      navigate("/");
+                    }}
+                    {...motionLinkProps}
+                    className="font-semibold -mx-3 block rounded-lg px-3 py-2 text-base/7 hover:bg-gray-50 cursor-pointer text-red-400"
+                  >
+                    Sair
+                  </MotionLink>
+                ) : (
+                  <div>
+                    <MotionLink
+                      to="/login"
+                      onClick={() => setMobileMenuOpen(false)}
+                      {...motionLinkProps}
+                      className="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold hover:bg-gray-50 hover:text-green-600"
+                    >
+                      Entrar
+                    </MotionLink>
+                    <MotionLink
+                      to="/register"
+                      onClick={() => setMobileMenuOpen(false)}
+                      {...motionLinkProps}
+                      className="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold hover:bg-gray-50 hover:text-green-600"
+                    >
+                      Criar conta
+                    </MotionLink>
+                  </div>
+                )}
               </div>
             </div>
           </div>

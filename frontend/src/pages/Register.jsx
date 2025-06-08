@@ -47,7 +47,7 @@ function Register() {
 
       const token = res.data.token;
       login(token);
-      navigate("/todos");
+      navigate("/");
     } catch (err) {
       console.error("Erro ao registrar:", err);
       const msg = err.response?.data?.error || "Erro ao registrar conta.";
@@ -162,7 +162,7 @@ function Register() {
         </motion.button>
 
         <MotionLink
-          to="/"
+          to="/login"
           whileHover={{ scale: 1.02 }}
           whileTap={{ scale: 0.95 }}
           className="block text-center w-full px-4 py-2 bg-gray-100 rounded-xl hover:bg-gray-200 cursor-pointer focus:outline-2 focus:outline-offset-2 focus:outline-gray-200 focus:bg-gray-200"

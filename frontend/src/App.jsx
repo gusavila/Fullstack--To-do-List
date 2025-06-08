@@ -7,9 +7,9 @@ import NotFound from "./pages/NotFound";
 function App() {
   return (
     <Routes>
-      <Route path="/" element={<Login />} />
+      <Route path="/" element={<TodoApp />} />
       <Route path="/register" element={<Register />} />
-      <Route path="/todos" element={<TodoApp />} />
+      <Route path="/login" element={<Login />} />
       <Route path="*" element={<NotFound />} />
     </Routes>
   );

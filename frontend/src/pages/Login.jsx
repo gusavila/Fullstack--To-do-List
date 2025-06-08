@@ -13,7 +13,7 @@ function Login() {
   
   useEffect(() => {
   if (localStorage.getItem("token")) {
-    navigate("/todos");
+    navigate("/");
   }
 }, []);
 
@@ -37,7 +37,7 @@ function Login() {
       login(res.data.token);
 
       setFeedback({ success: "Login realizado com sucesso!" });
-      navigate("/todos");
+      navigate("/");
     } catch (err) {
       console.error(err);
       setFeedback({ error: "Email ou senha inválidos." });

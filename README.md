@@ -2,6 +2,8 @@
 
 Aplicação web para gerenciamento de tarefas com sistema de autenticação. Permite ao usuário registrar-se, fazer login, criar, editar e excluir tarefas.
 
+![Imagem da lista de tarefas](https://github.com/user-attachments/assets/37b80bd7-4d73-41a8-9ba8-884ef0e62a42)
+
 ---
 
 ## 🛠️ Tecnologias

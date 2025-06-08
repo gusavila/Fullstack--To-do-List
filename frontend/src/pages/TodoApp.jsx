@@ -116,7 +116,7 @@ function TodoApp() {
       ) : (
         <div className="w-full max-w-md bg-white shadow-xl rounded-2xl p-6">
           <h1 className="text-2xl font-bold mb-4 text-center">
-            Lista de Tarefa
+            Lista de Tarefas
           </h1>
           <TodoForm
             task={task}

@@ -51,7 +51,7 @@ function TodoItem({ task, onToggle, onDelete, onUpdate }) {
             if (event.key === "Enter") handleSave();
           }}
           onBlur={handleSave}
-          className="flex-1 outline-none py-1 bg-transparent"
+          className="flex outline-none p-1 bg-white border border-gray-200 rounded-lg shadow-gray-200 shadow-md"
         />
       ) : (
         <span

@@ -18,7 +18,7 @@ function Header() {
   const navigate = useNavigate();
 
   return (
-    <header className="bg-white shadow-md">
+    <header>
       <nav
         aria-label="Global"
         className="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8"
@@ -42,7 +42,7 @@ function Header() {
               <span className="font-semibold">Sobre</span>
             </MotionLink>
             <MotionLink
-              to="#"
+              to="/contact"
               {...motionLinkProps}
               className="-m-1.5 p-1.5 flex gap-1 mx-1 hover:text-green-600"
             >

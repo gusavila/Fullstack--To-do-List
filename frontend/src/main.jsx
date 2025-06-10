@@ -10,7 +10,7 @@ import { AuthProvider } from "./context/AuthContext.jsx";
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <BrowserRouter>
-      <div className="flex flex-col justify-between min-h-screen text-gray-600 bg-gray-100">
+      <div className="flex flex-col justify-between min-h-screen text-gray-600 bg-gray-50">
         <AuthProvider>
           <Header />
           <App />

@@ -24,6 +24,11 @@ function TodoApp() {
       try {
         const res = await fetchTodos();
 
+        if (res.status === 401 || res.status === 403) {
+          logout();
+          return;
+        }
+
         const elapsed = Date.now() - start;
         const minDelay = 300;
         if (elapsed < minDelay) {
@@ -112,7 +117,7 @@ function TodoApp() {
   return (
     <div className="flex-row place-items-center p-4 mt-24">
       {loadingTodoList ? (
-        <LoadingTodo className="w-full max-w-md bg-white shadow-xl rounded-2xl p-6"/>
+        <LoadingTodo className="w-full max-w-md bg-white shadow-xl rounded-2xl p-6" />
       ) : (
         <div className="w-full max-w-md bg-white shadow-xl rounded-2xl p-6  ring-1 ring-gray-400/10">
           <h1 className="text-2xl font-bold mb-4 text-center">

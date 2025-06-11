@@ -51,7 +51,7 @@ function Login() {
   };
 
   return (
-    <div className="flex items-center justify-center mt-14 bg-gray-100">
+    <div className="flex items-center justify-center mt-14">
       <div className="bg-white p-6 rounded-xl shadow-xl w-full max-w-md">
         <h2 className="text-2xl font-bold mb-6 text-center">
           Entre em sua conta

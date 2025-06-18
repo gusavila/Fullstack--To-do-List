@@ -2,7 +2,6 @@ import { useState, useContext } from "react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import { jwtDecode } from "jwt-decode";
 import { AuthContext } from "../context/AuthContext.jsx";
 
 const MotionLink = motion.create(Link);

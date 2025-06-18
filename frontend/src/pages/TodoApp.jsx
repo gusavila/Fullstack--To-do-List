@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import {
   fetchTodos,
   addTodo,
@@ -9,48 +9,37 @@ import {
 import TodoForm from "../components/TodoForm";
 import TodoList from "../components/TodoList";
 import LoadingTodo from "../components/LoadingTodo.jsx";
+import { AuthContext } from "../context/AuthContext.jsx";
 
 function TodoApp() {
   const [task, setTask] = useState("");
   const [tasks, setTasks] = useState([]);
   const [loading, setLoading] = useState(false);
   const [loadingTodoList, setLoadingTodoList] = useState(false);
+  const { logout } = useContext(AuthContext);
 
   useEffect(() => {
     setLoadingTodoList(true);
-
     const load = async () => {
-      const start = Date.now();
       try {
         const res = await fetchTodos();
-
-        if (res.status === 401 || res.status === 403) {
-          logout();
-          return;
-        }
-
-        const elapsed = Date.now() - start;
-        const minDelay = 300;
-        if (elapsed < minDelay) {
-          await new Promise((resolve) =>
-            setTimeout(resolve, minDelay - elapsed)
-          );
-        }
-
         setTasks(res.data);
       } catch (err) {
-        console.error("Erro ao carregar tarefas:", err);
+        if (err.response && (err.response.status === 401 || err.response.status === 403)) {
+          logout();
+        } else {
+          console.error("Erro ao carregar tarefas:", err);
+        }
       } finally {
         setLoadingTodoList(false);
       }
     };
     load();
-  }, []);
+  }, [logout]);
 
   const handleAddTask = async () => {
     if (task.trim() === "") return;
 
-    const start = Date.now();
     setLoading(true);
     try {
       const res = await addTodo(task);

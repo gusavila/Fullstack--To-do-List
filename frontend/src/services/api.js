@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = "http://localhost:3000/todos";
+const API_URL = "http://localhost:3000";
 
 const getAuthHeaders = () => {
   const token = localStorage.getItem("token");
@@ -13,15 +13,22 @@ const getAuthHeaders = () => {
     : {};
 };
 
-export const fetchTodos = () => axios.get(API_URL, getAuthHeaders());
+export const fetchTodos = () => axios.get(`${API_URL}/todos`, getAuthHeaders());
 
 export const addTodo = (task) =>
-  axios.post(API_URL, { text: task }, getAuthHeaders());
+  axios.post(`${API_URL}/todos`, { text: task }, getAuthHeaders());
 
 export const deleteTodo = (id) =>
-  axios.delete(`${API_URL}/${id}`, getAuthHeaders());
+  axios.delete(`${API_URL}/todos/${id}`, getAuthHeaders());
 
 export const updateTodo = (id, updatedData) =>
-  axios.put(`${API_URL}/${id}`, updatedData, getAuthHeaders());
+  axios.put(`${API_URL}/todos/${id}`, updatedData, getAuthHeaders());
 
 export const toggleTodo = (id, completed) => updateTodo(id, { completed });
+
+export const sendUserFeedback = (firstName, lastName, email, feedback) =>
+  axios.post(
+    `${API_URL}/contact`,
+    { firstName, lastName, email, feedback },
+    getAuthHeaders()
+  );

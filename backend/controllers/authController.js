@@ -1,6 +1,5 @@
 import bcrypt, { compare } from "bcrypt";
 import jwt from "jsonwebtoken";
-import db from "../db.js";
 import { verifyExistingUser, getNewUser } from "../models/userModel.js";
 
 const JWT_SECRET = process.env.JWT_SECRET || "secret";
@@ -51,11 +50,9 @@ export const loginUser = async (req, res) => {
   }
 
   try {
-    const result = await db.query("SELECT * FROM users WHERE email = $1", [
-      email,
-    ]);
+    const existingUser = await verifyExistingUser(email);
 
-    if (result.rows.length === 0) {
+    if (existingUser.rows.length === 0) {
       return res.status(401).json({ error: "Usuário não encontrado." });
     }
 

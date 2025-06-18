@@ -59,7 +59,7 @@ function Header() {
               <motion.button
                 onClick={() => {
                   logout();
-                  navigate("/");
+                  navigate("/login");
                 }}
                 {...motionLinkProps}
                 className="font-semibold cursor-pointer text-red-400 ml-4"
@@ -124,6 +124,7 @@ function Header() {
                 to="/"
                 {...motionLinkProps}
                 className="-m-1.5 p-1.5 text-lg flex items-center gap-1"
+                onClick={() => setMobileMenuOpen(false)}
               >
                 <span className="sr-only">Logo da empresa</span>
                 <span className="font-semibold">Todo List</span>
@@ -159,17 +160,19 @@ function Header() {
             <div className="-my-6 divide-y divide-gray-500/10">
               <div className="space-y-2 py-6">
                 <MotionLink
-                  to="#"
+                  to="/about"
                   {...motionLinkProps}
                   className="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold hover:bg-gray-50 hover:text-green-600"
+                  onClick={() => setMobileMenuOpen(false)}
                 >
-                  <span className="font-semibold">Sobre</span>
+                  <span className="font-semibold" >Sobre</span>
                 </MotionLink>
 
                 <MotionLink
-                  to="#"
+                  to="/contact"
                   {...motionLinkProps}
                   className="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold hover:bg-gray-50 hover:text-green-600"
+                  onClick={() => setMobileMenuOpen(false)}
                 >
                   <span className="font-semibold">Contato</span>
                 </MotionLink>
@@ -179,10 +182,11 @@ function Header() {
                   <MotionLink
                     onClick={() => {
                       logout();
-                      navigate("/");
+                      setMobileMenuOpen(false)
                     }}
                     {...motionLinkProps}
                     className="font-semibold -mx-3 block rounded-lg px-3 py-2 text-base/7 hover:bg-gray-50 cursor-pointer text-red-400"
+                    to="/login"
                   >
                     Sair
                   </MotionLink>

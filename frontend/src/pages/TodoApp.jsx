@@ -25,7 +25,10 @@ function TodoApp() {
         const res = await fetchTodos();
         setTasks(res.data);
       } catch (err) {
-        if (err.response && (err.response.status === 401 || err.response.status === 403)) {
+        if (
+          err.response &&
+          (err.response.status === 401 || err.response.status === 403)
+        ) {
           logout();
         } else {
           console.error("Erro ao carregar tarefas:", err);
@@ -39,6 +42,7 @@ function TodoApp() {
 
   const handleAddTask = async () => {
     if (task.trim() === "") return;
+    const start = Date.now();
 
     setLoading(true);
     try {

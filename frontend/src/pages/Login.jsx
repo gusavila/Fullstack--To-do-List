@@ -9,22 +9,35 @@ const MotionLink = motion.create(Link);
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [message, setMessage] = useState(null);
   const [feedback, setFeedback] = useState({ error: "", success: "" });
-  
+
   useEffect(() => {
-  if (localStorage.getItem("token")) {
-    navigate("/");
-  }
-}, []);
+    if (localStorage.getItem("token")) {
+      navigate("/");
+    }
+  }, []);
+
+  useEffect(() => {
+    if (message) {
+      const timer = setTimeout(() => {
+        setMessage("");
+      }, 3000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [message]);
 
   const navigate = useNavigate();
   const { login } = useContext(AuthContext);
 
   const handleLogin = async () => {
     setFeedback({ error: "", success: "" });
+    setMessage(null);
 
     if (!email || !password) {
-      setFeedback({ error:"Preencha todos os campos." });
+      setFeedback({ error: "Preencha todos os campos." });
+      setMessage({ type: "error", text: "Preencha todos os campos." });
       return;
     }
 
@@ -37,10 +50,12 @@ function Login() {
       login(res.data.token);
 
       setFeedback({ success: "Login realizado com sucesso!" });
+      setMessage({ type: "success", text: "Login realizado com sucesso!" });
       navigate("/");
     } catch (err) {
       console.error(err);
       setFeedback({ error: "Email ou senha inválidos." });
+      setMessage({ type: "error", text: "Email ou senha inválidos." });
     }
   };
 
@@ -85,13 +100,6 @@ function Login() {
           />
         </div>
 
-        {feedback.error && (
-          <p className="text-red-500 mb-4 text-sm text-center">{feedback.error}</p>
-        )}
-        {feedback.success && (
-          <p className="text-green-500 mb-4 text-sm text-center">{feedback.success}</p>
-        )}
-
         <motion.button
           onClick={handleLogin}
           whileHover={{ scale: 1.02 }}
@@ -109,6 +117,18 @@ function Login() {
         >
           Criar uma conta
         </MotionLink>
+
+        {message && (
+          <p
+            className={`mt-6 text-center text-xs font-medium px-3 py-1 rounded-xl max-w-fit mx-auto ${
+              message.type === "success"
+                ? "text-green-800 bg-green-100"
+                : "text-red-800 bg-red-100"
+            }`}
+          >
+            {message.text}
+          </p>
+        )}
       </div>
     </div>
   );

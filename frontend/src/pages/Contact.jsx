@@ -1,11 +1,11 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Field, Label, Switch } from "@headlessui/react";
 import { sendUserFeedback } from "../services/api.js";
 import { motion } from "framer-motion";
 
 function Contact() {
   const [agreed, setAgreed] = useState(false);
-  const [message, setMessage] = useState("");
+  const [message, setMessage] = useState(null);
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -13,7 +13,17 @@ function Contact() {
     feedback: "",
   });
 
-  const handleChange = async (e) => {
+  useEffect(() => {
+    if (message) {
+      const timer = setTimeout(() => {
+        setMessage("");
+      }, 3000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [message]);
+
+  const handleChange = (e) => {
     const { name, value } = e.target;
 
     setFormData((prevData) => ({
@@ -24,76 +34,76 @@ function Contact() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setMessage(null);
+
+    if (!agreed) {
+      setMessage({
+        type: "error",
+        text: "Você precisa concordar com a política de privacidade.",
+      });
+      return;
+    }
 
     try {
-      const res = await sendUserFeedback(
+      await sendUserFeedback(
         formData.firstName,
         formData.lastName,
         formData.email,
-        formData.feedback,
+        formData.feedback
       );
-      setMessage("Mensagem enviada.");
-      setFormData("");
-      console.log(res.data);
+
+      setMessage({ type: "success", text: "Mensagem enviada com sucesso!" });
+      setFormData({ firstName: "", lastName: "", email: "", feedback: "" });
+      setAgreed(false);
     } catch (err) {
       console.error("Erro ao enviar mensagem:", err);
-      setMessage("Erro ao enviar mensagem.");
+      setMessage({
+        type: "error",
+        text: "Erro ao enviar mensagem. Tente novamente mais tarde.",
+      });
     }
   };
 
   return (
     <div className="isolate px-6 py-24 text-gray-700 sm:py-24 lg:px-8">
       <div className="mx-auto max-w-2xl text-center">
-        <h2 className="text-4xl font-semibold tracking-tight text-balance sm:text-5xl">
+        <h2 className="text-4xl font-semibold tracking-tight sm:text-5xl">
           Me envie uma mensagem
         </h2>
-        <p className="mt-2 text-lg/8 text-gray-500">
-          Quero ouvir o seu feedback e sujestões! 😀
+        <p className="mt-2 text-lg text-gray-500">
+          Quero ouvir o seu feedback e sugestões! 😀
         </p>
       </div>
+
       <form onSubmit={handleSubmit} className="mx-auto mt-16 max-w-xl sm:mt-20">
         <div className="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2">
-          <div>
-            <label
-              htmlFor="firstName"
-              className="block text-sm/6 font-semibold"
-            >
-              Nome
-            </label>
-            <div className="mt-2.5">
-              <input
-                id="firstName"
-                name="firstName"
-                type="text"
-                value={formData.firstName}
-                autoComplete="given-name"
-                placeholder="Primeiro nome"
-                onChange={handleChange}
-                required
-                className="block w-full rounded-md bg-white px-3.5 py-2 text-base outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-green-500"
-              />
+          {["firstName", "lastName"].map((field) => (
+            <div key={field}>
+              <label htmlFor={field} className="block text-sm font-semibold">
+                {field === "firstName" ? "Nome" : "Sobrenome"}
+              </label>
+              <div className="mt-2.5">
+                <input
+                  id={field}
+                  name={field}
+                  type="text"
+                  value={formData[field]}
+                  autoComplete={
+                    field === "firstName" ? "given-name" : "family-name"
+                  }
+                  placeholder={
+                    field === "firstName" ? "Primeiro nome" : "Sobrenome"
+                  }
+                  onChange={handleChange}
+                  required
+                  className="block w-full rounded-md bg-white px-3.5 py-2 outline-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:outline-green-500"
+                />
+              </div>
             </div>
-          </div>
-          <div>
-            <label htmlFor="lastName" className="block text-sm/6 font-semibold">
-              Sobrenome
-            </label>
-            <div className="mt-2.5">
-              <input
-                id="lastName"
-                name="lastName"
-                type="text"
-                value={formData.lastName}
-                autoComplete="family-name"
-                placeholder="Sobrenome"
-                onChange={handleChange}
-                required
-                className="block w-full rounded-md bg-white px-3.5 py-2 text-base  outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-green-500"
-              />
-            </div>
-          </div>
+          ))}
+
           <div className="sm:col-span-2">
-            <label htmlFor="email" className="block text-sm/6 font-semibold">
+            <label htmlFor="email" className="block text-sm font-semibold">
               E-mail
             </label>
             <div className="mt-2.5">
@@ -102,20 +112,17 @@ function Contact() {
                 name="email"
                 type="email"
                 value={formData.email}
-                autoComplete="email"
                 placeholder="email@example.com"
+                autoComplete="email"
                 onChange={handleChange}
                 required
-                className="block w-full rounded-md bg-white px-3.5 py-2 text-base  outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-green-500"
+                className="block w-full rounded-md bg-white px-3.5 py-2 outline-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:outline-green-500"
               />
             </div>
           </div>
 
           <div className="sm:col-span-2">
-            <label
-              htmlFor="feedback"
-              className="block text-sm/6 font-semibold "
-            >
+            <label htmlFor="feedback" className="block text-sm font-semibold">
               Sua mensagem
             </label>
             <div className="mt-2.5">
@@ -123,53 +130,70 @@ function Contact() {
                 id="feedback"
                 name="feedback"
                 value={formData.feedback}
-                rows={4}
-                placeholder="Escreva a sua opnião e sugestões"
                 onChange={handleChange}
+                rows={4}
+                placeholder="Escreva sua opinião ou sugestão"
                 required
-                className="block w-full rounded-md bg-white px-3.5 py-2 text-base  outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-green-500"
+                className="block w-full rounded-md bg-white px-3.5 py-2 outline-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:outline-green-500"
               />
             </div>
           </div>
+
           <Field className="flex gap-x-4 sm:col-span-2">
             <div className="flex h-6 items-center">
               <Switch
                 checked={agreed}
                 onChange={setAgreed}
-                className="group flex w-8 flex-none cursor-pointer rounded-full bg-gray-200 p-px ring-1 ring-gray-900/5 transition-colors duration-200 ease-in-out ring-inset focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600 data-checked:bg-green-500"
+                className={`group flex w-8 cursor-pointer rounded-full p-px transition-colors duration-200 ring-1 ring-inset ring-gray-900/5 ${
+                  agreed ? "bg-green-500" : "bg-gray-200"
+                }`}
               >
-                <span className="sr-only">Concordar com a politica</span>
+                <span className="sr-only">Concordar com a política</span>
                 <span
                   aria-hidden="true"
-                  className="size-4 transform rounded-full bg-white shadow-xs ring-1 ring-gray-900/5 transition duration-200 ease-in-out group-data-checked:translate-x-3.5"
+                  className={`size-4 transform rounded-full bg-white shadow-xs ring-1 ring-gray-900/5 transition duration-200 ${
+                    agreed ? "translate-x-3.5" : "translate-x-0"
+                  }`}
                 />
               </Switch>
             </div>
-            <Label className="text-sm/6 text-gray-600">
-              Selecionando essa opção, você concordo com o nossa{" "}
+            <Label className="text-sm text-gray-600">
+              Selecionando essa opção, você concorda com a nossa{" "}
               <a href="#" className="font-semibold text-green-600">
-                política&nbsp;de&nbsp;privacidade
+                política de privacidade
               </a>
               .
             </Label>
           </Field>
         </div>
+
         <div className="mt-10">
           <motion.button
             type="submit"
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.95 }}
-            className={`block w-full rounded-md bg-gray-400 px-3.5 py-2.5 text-center text-sm font-semibold text-white shadow-xs ${
-              agreed &&
-              "bg-green-500 hover:bg-green-600 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-500"
+            className={`block w-full rounded-md px-3.5 py-2.5 text-center text-sm font-semibold text-white shadow-sm ${
+              agreed
+                ? "bg-green-500 hover:bg-green-600 focus:outline-green-500"
+                : "bg-gray-400 cursor-not-allowed"
             }`}
           >
-            Enviar a mensagem
+            Enviar mensagem
           </motion.button>
         </div>
       </form>
 
-      {message && <p className="text-white bg-gray-700 mb-4 max-w-40 text-sm m-auto p-0.5 rounded text-center mt-4">{message}</p>}
+      {message && (
+        <p
+          className={`mt-6 text-center text-sm font-medium px-4 py-2 rounded-lg max-w-sm mx-auto ${
+            message.type === "success"
+              ? "text-green-800 bg-green-100"
+              : "text-red-800 bg-red-100"
+          }`}
+        >
+          {message.text}
+        </p>
+      )}
     </div>
   );
 }

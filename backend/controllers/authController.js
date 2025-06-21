@@ -56,7 +56,7 @@ export const loginUser = async (req, res) => {
       return res.status(401).json({ error: "Usuário não encontrado." });
     }
 
-    const user = result.rows[0];
+    const user = existingUser.rows[0];
     const isPasswordValid = await bcrypt.compare(password, user.password);
 
     if (!isPasswordValid) {

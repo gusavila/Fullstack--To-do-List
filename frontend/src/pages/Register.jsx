@@ -1,4 +1,4 @@
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
@@ -10,30 +10,47 @@ function Register() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
-  const [success, setSuccess] = useState("");
+  const [message, setMessage] = useState(null);
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
   const { login } = useContext(AuthContext);
   const navigate = useNavigate();
 
+  useEffect(() => {
+    if (localStorage.getItem("token")) {
+      navigate("/");
+    }
+  }, []);
+
+  useEffect(() => {
+    if (message) {
+      const timer = setTimeout(() => {
+        setMessage("");
+      }, 3000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [message]);
+
   const handleRegister = async () => {
-    setError("");
-    setSuccess("");
+    setMessage(null);
 
     if (!name || !email || !password) {
-      setError("Preencha todos os campos.");
+      setMessage({ type: "error", text: "Preencha todos os campos." });
       return;
     }
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
-      setError("Digite um e-mail válido.");
+      setMessage({ type: "error", text: "Digite um e-mail válido." });
       return;
     }
 
     if (password.length < 6) {
-      setError("A senha deve ter pelo menos 6 caracteres.");
+      setMessage({
+        type: "error",
+        text: "A senha deve ter pelo menos 6 caracteres.",
+      });
       return;
     }
 
@@ -50,7 +67,7 @@ function Register() {
     } catch (err) {
       console.error("Erro ao registrar:", err);
       const msg = err.response?.data?.error || "Erro ao registrar conta.";
-      setError(msg);
+      setMessage({ type: "error", text: msg });
     }
   };
 
@@ -144,13 +161,6 @@ function Register() {
           )}
         </div>
 
-        {error && (
-          <p className="text-red-500 text-sm mb-4 text-center">{error}</p>
-        )}
-        {success && (
-          <p className="text-green-600 text-sm mb-4 text-center">{success}</p>
-        )}
-
         <motion.button
           onClick={handleRegister}
           whileHover={{ scale: 1.02 }}
@@ -168,6 +178,18 @@ function Register() {
         >
           Já possuí uma conta? Entrar
         </MotionLink>
+
+        {message && (
+          <p
+            className={`mt-6 text-center text-xs font-medium px-3 py-1 rounded-lg max-w-fit mx-auto ${
+              message.type === "success"
+                ? "text-green-800 bg-green-100"
+                : "text-red-800 bg-red-100"
+            }`}
+          >
+            {message.text}
+          </p>
+        )}
       </div>
     </div>
   );

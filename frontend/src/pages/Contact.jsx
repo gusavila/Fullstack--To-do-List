@@ -2,70 +2,21 @@ import { useEffect, useState } from "react";
 import { Field, Label, Switch } from "@headlessui/react";
 import { sendUserFeedback } from "../services/api.js";
 import { motion } from "framer-motion";
+import useContactForm from "../hooks/useContactForm.js";
 
 function Contact() {
-  const [agreed, setAgreed] = useState(false);
-  const [message, setMessage] = useState(null);
-  const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
-    email: "",
-    feedback: "",
-  });
-
-  useEffect(() => {
-    if (message) {
-      const timer = setTimeout(() => {
-        setMessage("");
-      }, 3000);
-
-      return () => clearTimeout(timer);
-    }
-  }, [message]);
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-
-    setFormData((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setMessage(null);
-
-    if (!agreed) {
-      setMessage({
-        type: "error",
-        text: "Você precisa concordar com a política de privacidade.",
-      });
-      return;
-    }
-
-    try {
-      await sendUserFeedback(
-        formData.firstName,
-        formData.lastName,
-        formData.email,
-        formData.feedback
-      );
-
-      setMessage({ type: "success", text: "Mensagem enviada com sucesso!" });
-      setFormData({ firstName: "", lastName: "", email: "", feedback: "" });
-      setAgreed(false);
-    } catch (err) {
-      console.error("Erro ao enviar mensagem:", err);
-      setMessage({
-        type: "error",
-        text: "Erro ao enviar mensagem. Tente novamente mais tarde.",
-      });
-    }
-  };
+   const {
+    formData,
+    agreed,
+    message,
+    setAgreed,
+    errors,
+    handleChange,
+    handleSubmit,
+  } = useContactForm();
 
   return (
-    <div className="isolate px-6 py-24 text-gray-700 sm:py-24 lg:px-8">
+    <div className="isolate px-6 py-24 text-gray-700 sm:py-20 lg:px-8">
       <div className="mx-auto max-w-2xl text-center">
         <h2 className="text-4xl font-semibold tracking-tight sm:text-5xl">
           Me envie uma mensagem
@@ -76,7 +27,7 @@ function Contact() {
       </div>
 
       <form onSubmit={handleSubmit} className="mx-auto mt-16 max-w-xl sm:mt-20">
-        <div className="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2">
+        <div className="grid grid-cols-1 gap-x-8 gap-y-10 sm:grid-cols-2">
           {["firstName", "lastName"].map((field) => (
             <div key={field}>
               <label htmlFor={field} className="block text-sm font-semibold">
@@ -95,10 +46,14 @@ function Contact() {
                     field === "firstName" ? "Primeiro nome" : "Sobrenome"
                   }
                   onChange={handleChange}
-                  required
                   className="block w-full rounded-md bg-white px-3.5 py-2 outline-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:outline-green-500"
                 />
               </div>
+              {errors[field] && (
+                <p className="absolute m-auto text-center pl-2 text-xs text-red-500 mt-1">
+                  {errors[field]}
+                </p>
+              )}
             </div>
           ))}
 
@@ -115,9 +70,13 @@ function Contact() {
                 placeholder="email@example.com"
                 autoComplete="email"
                 onChange={handleChange}
-                required
                 className="block w-full rounded-md bg-white px-3.5 py-2 outline-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:outline-green-500"
               />
+              {errors.email && (
+                <p className="absolute m-auto text-center pl-2 text-xs text-red-500 mt-1">
+                  {errors.email}
+                </p>
+              )}
             </div>
           </div>
 
@@ -133,9 +92,13 @@ function Contact() {
                 onChange={handleChange}
                 rows={4}
                 placeholder="Escreva sua opinião ou sugestão"
-                required
                 className="block w-full rounded-md bg-white px-3.5 py-2 outline-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:outline-green-500"
               />
+              {errors.feedback && (
+                <p className="absolute m-auto text-center pl-2 text-xs text-red-500 mt-1">
+                  {errors.feedback}
+                </p>
+              )}
             </div>
           </div>
 
@@ -165,6 +128,11 @@ function Contact() {
               .
             </Label>
           </Field>
+          {errors.policy && (
+            <p className="text-sm text-red-500 sm:col-span-2">
+              {errors.policy}
+            </p>
+          )}
         </div>
 
         <div className="mt-10">
@@ -185,7 +153,7 @@ function Contact() {
 
       {message && (
         <p
-          className={`mt-6 text-center text-sm font-medium px-4 py-2 rounded-lg max-w-sm mx-auto ${
+          className={`mt-6 absolute m-auto left-0 right-0 text-center text-xs font-medium px-3 py-1 rounded-lg max-w-fit mx-auto ${
             message.type === "success"
               ? "text-green-800 bg-green-100"
               : "text-red-800 bg-red-100"

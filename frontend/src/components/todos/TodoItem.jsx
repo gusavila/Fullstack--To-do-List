@@ -5,7 +5,7 @@ import CheckIcon from "@mui/icons-material/Check";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import { motion } from "framer-motion";
-import Tooltip from "./ToolTip";
+import Tooltip from "../ToolTip";
 
 function TodoItem({ task, onToggle, onDelete, onUpdate }) {
   const [isEditing, setIsEditing] = useState(false);
@@ -51,7 +51,7 @@ function TodoItem({ task, onToggle, onDelete, onUpdate }) {
             if (event.key === "Enter") handleSave();
           }}
           onBlur={handleSave}
-          className="flex outline-none p-1 bg-white border border-gray-200 rounded-lg shadow-gray-200 shadow-md"
+          className="flex outline-none py-1 pl-2 bg-white border border-gray-200 rounded-md"
         />
       ) : (
         <span

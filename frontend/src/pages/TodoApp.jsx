@@ -6,9 +6,9 @@ import {
   updateTodo,
   toggleTodo,
 } from "../services/api.js";
-import TodoForm from "../components/TodoForm";
-import TodoList from "../components/TodoList";
-import LoadingTodo from "../components/LoadingTodo.jsx";
+import TodoForm from "../components/todos/TodoForm.jsx";
+import TodoList from "../components/todos/TodoList.jsx";
+import LoadingTodo from "../components/loading/LoadingTodo.jsx";
 import { AuthContext } from "../context/AuthContext.jsx";
 
 function TodoApp() {

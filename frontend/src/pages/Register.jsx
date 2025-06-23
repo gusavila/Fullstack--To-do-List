@@ -95,7 +95,7 @@ function Register() {
 
     if (value.length < 6) {
       setPasswordError("A senha deve ter pelo menos 6 caracteres.");
-    } else {awda
+    } else {
       setPasswordError("");
     }
   };

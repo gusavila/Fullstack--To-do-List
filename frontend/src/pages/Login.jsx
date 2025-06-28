@@ -62,16 +62,16 @@ function Login() {
 
   return (
     <div className="flex items-center justify-center mt-14">
-      <div className="bg-white p-6 rounded-xl shadow-xl w-full max-w-md">
+      <div className="bg-white dark:bg-gray-700 p-6 rounded-xl shadow-xl w-full max-w-md">
         <h2 className="text-2xl font-bold mb-6 text-center">
           Entre em sua conta
         </h2>
 
         <div className="mb-4">
-          <label className="block mb-1 text-sm text-gray-700">Email</label>
+          <label className="block mb-1 text-sm">Email</label>
           <input
             type="email"
-            className="w-full px-4 py-2 border border-gray-300 rounded-xl focus:outline-none focus:ring focus:ring-green-400"
+            className="w-full px-4 py-2 border border-gray-300 dark:bg-gray-50 dark:text-gray-600 rounded-xl focus:outline-none focus:ring focus:ring-green-400"
             value={email}
             onChange={(e) => {
               setEmail(e.target.value);
@@ -82,10 +82,10 @@ function Login() {
         </div>
 
         <div className="mb-6">
-          <label className="block mb-1 text-sm text-gray-700">Senha</label>
+          <label className="block mb-1 text-sm">Senha</label>
           <input
             type="password"
-            className="w-full px-4 py-2 border border-gray-300 rounded-xl focus:outline-none focus:ring focus:ring-green-400"
+            className="w-full px-4 py-2 border border-gray-300 rounded-xl dark:bg-gray-50 dark:text-gray-600 focus:outline-none focus:ring focus:ring-green-400"
             value={password}
             onChange={(event) => {
               setPassword(event.target.value);
@@ -108,7 +108,7 @@ function Login() {
           to="/register"
           whileHover={{ scale: 1.02 }}
           whileTap={{ scale: 0.95 }}
-          className="block text-center w-full px-4 py-2 bg-gray-100 rounded-xl hover:bg-gray-200 cursor-pointer focus:outline-2 focus:outline-offset-2 focus:outline-gray-200 focus:bg-gray-200"
+          className="block text-center w-full px-4 py-2 bg-gray-100 dark:text-gray-600 rounded-xl hover:bg-gray-200 cursor-pointer focus:outline-2 focus:outline-offset-2 focus:outline-gray-200 focus:bg-gray-200"
         >
           Criar uma conta
         </MotionLink>

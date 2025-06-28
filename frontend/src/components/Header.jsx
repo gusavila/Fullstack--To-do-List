@@ -6,9 +6,12 @@ import { Dialog, DialogPanel } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { AuthContext } from "../context/AuthContext.jsx";
+import { MoonIcon, SunIcon } from "@heroicons/react/24/outline";
+import useTheme from "../hooks/useTheme.js";
 
 function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const { theme, toggleTheme } = useTheme();
   const MotionLink = motion.create(Link);
   const motionLinkProps = {
     whileHover: { scale: 1.05 },
@@ -52,6 +55,17 @@ function Header() {
         </div>
 
         <div className="hidden lg:flex lg:flex-1 lg:justify-end items-center space-x-4">
+           <button
+              onClick={toggleTheme}
+              className="p-2 rounded-full bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition"
+              aria-label="Toggle dark mode"
+            >
+              {theme === "dark" ? (
+                <SunIcon className="h-5 w-5 text-yellow-400" />
+              ) : (
+                <MoonIcon className="h-5 w-5 text-gray-800" />
+              )}
+            </button>
           {user ? (
             <div className="flex items-center gap-2">
               <span className="font-light">Olá, {user.name}</span>
@@ -165,7 +179,7 @@ function Header() {
                   className="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold hover:bg-gray-50 hover:text-green-600"
                   onClick={() => setMobileMenuOpen(false)}
                 >
-                  <span className="font-semibold" >Sobre</span>
+                  <span className="font-semibold">Sobre</span>
                 </MotionLink>
 
                 <MotionLink
@@ -182,7 +196,7 @@ function Header() {
                   <MotionLink
                     onClick={() => {
                       logout();
-                      setMobileMenuOpen(false)
+                      setMobileMenuOpen(false);
                     }}
                     {...motionLinkProps}
                     className="font-semibold -mx-3 block rounded-lg px-3 py-2 text-base/7 hover:bg-gray-50 cursor-pointer text-red-400"

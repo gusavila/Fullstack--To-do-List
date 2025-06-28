@@ -102,13 +102,13 @@ function Register() {
 
   return (
     <div className="flex items-center justify-center mt-14">
-      <div className="bg-white p-6 rounded-xl shadow-xl w-full max-w-md">
+      <div className="bg-white dark:bg-gray-700 p-6 rounded-xl shadow-xl w-full max-w-md">
         <h2 className="text-2xl font-bold mb-6 text-center">
           Crie a sua conta
         </h2>
 
         <div className="mb-4">
-          <label htmlFor="name" className="block mb-1 text-sm text-gray-700">
+          <label htmlFor="name" className="block mb-1 text-sm">
             Nome
           </label>
           <input
@@ -118,12 +118,12 @@ function Register() {
             onChange={(event) => setName(event.target.value)}
             onKeyDown={handleKeyDown}
             placeholder="Seu nome"
-            className="w-full px-4 py-2 border border-gray-300 rounded-xl focus:outline-none focus:ring focus:ring-green-400"
+            className="w-full px-4 py-2 border border-gray-300 dark:bg-gray-50 dark:text-gray-600 rounded-xl focus:outline-none focus:ring focus:ring-green-400"
           />
         </div>
 
         <div className="mb-4">
-          <label htmlFor="email" className="block mb-1 text-sm text-gray-700">
+          <label htmlFor="email" className="block mb-1 text-sm">
             E-mail
           </label>
           <input
@@ -133,17 +133,17 @@ function Register() {
             onChange={handleEmail}
             onKeyDown={handleKeyDown}
             placeholder="Seu email"
-            className="w-full px-4 py-2 border border-gray-300 rounded-xl focus:outline-none focus:ring focus:ring-green-400"
+            className="w-full px-4 py-2 border border-gray-300 dark:bg-gray-50 dark:text-gray-600  rounded-xl focus:outline-none focus:ring focus:ring-green-400"
           />
           {emailError && (
-            <p className="text-red-500 text-sm mt-1">{emailError}</p>
+            <p className="text-red-400 text-sm mt-1">{emailError}</p>
           )}
         </div>
 
         <div className="mb-6">
           <label
             htmlFor="password"
-            className="block mb-1 text-sm text-gray-700"
+            className="block mb-1 text-sm"
           >
             Senha
           </label>
@@ -154,10 +154,10 @@ function Register() {
             onChange={handlePassword}
             onKeyDown={handleKeyDown}
             placeholder="Crie uma senha"
-            className="w-full px-4 py-2 border border-gray-300 rounded-xl focus:outline-none focus:ring focus:ring-green-400"
+            className="w-full px-4 py-2 border border-gray-300 rounded-xl dark:bg-gray-50 dark:text-gray-600 focus:outline-none focus:ring focus:ring-green-400"
           />
           {passwordError && (
-            <p className="text-red-500 text-sm mt-1">{passwordError}</p>
+            <p className="text-red-400 text-sm mt-1">{passwordError}</p>
           )}
         </div>
 
@@ -174,7 +174,7 @@ function Register() {
           to="/login"
           whileHover={{ scale: 1.02 }}
           whileTap={{ scale: 0.95 }}
-          className="block text-center w-full px-4 py-2 bg-gray-100 rounded-xl hover:bg-gray-200 cursor-pointer focus:outline-2 focus:outline-offset-2 focus:outline-gray-200 focus:bg-gray-200"
+          className="block text-center w-full px-4 py-2 bg-gray-100 dark:text-gray-600 rounded-xl hover:bg-gray-200 cursor-pointer focus:outline-2 focus:outline-offset-2 focus:outline-gray-200 focus:bg-gray-200"
         >
           Já possuí uma conta? Entrar
         </MotionLink>

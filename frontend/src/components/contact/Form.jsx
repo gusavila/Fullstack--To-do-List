@@ -30,11 +30,11 @@ function Form({
                   field === "firstName" ? "Primeiro nome" : "Sobrenome"
                 }
                 onChange={handleChange}
-                className="block w-full rounded-md bg-white px-3.5 py-2 outline-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:outline-green-500"
+                className="block w-full rounded-md bg-white dark:text-gray-600 px-3.5 py-2 outline-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:outline-green-500"
               />
             </div>
             {errors[field] && (
-              <p className="absolute m-auto text-center pl-2 text-xs text-red-500 mt-1">
+              <p className="absolute m-auto text-center pl-2 text-xs text-red-500 dark:text-red-400 mt-1">
                 {errors[field]}
               </p>
             )}
@@ -54,10 +54,10 @@ function Form({
               placeholder="email@example.com"
               autoComplete="email"
               onChange={handleChange}
-              className="block w-full rounded-md bg-white px-3.5 py-2 outline-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:outline-green-500"
+              className="block w-full rounded-md bg-white dark:text-gray-600 px-3.5 py-2 outline-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:outline-green-500"
             />
             {errors.email && (
-              <p className="absolute m-auto text-center pl-2 text-xs text-red-500 mt-1">
+              <p className="absolute m-auto text-center pl-2 text-xs text-red-500 dark:text-red-400 mt-1">
                 {errors.email}
               </p>
             )}
@@ -76,10 +76,10 @@ function Form({
               onChange={handleChange}
               rows={4}
               placeholder="Escreva sua opinião ou sugestão"
-              className="block w-full rounded-md bg-white px-3.5 py-2 outline-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:outline-green-500"
+              className="block w-full rounded-md bg-white dark:text-gray-600 px-3.5 py-2 outline-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:outline-green-500"
             />
             {errors.feedback && (
-              <p className="absolute m-auto text-center pl-2 text-xs text-red-500 mt-1">
+              <p className="absolute m-auto text-center pl-2 text-xs text-red-500 dark:text-red-400 mt-1">
                 {errors.feedback}
               </p>
             )}
@@ -104,7 +104,7 @@ function Form({
               />
             </Switch>
           </div>
-          <Label className="text-sm text-gray-600">
+          <Label className="text-sm text-gray-600 dark:text-gray-300">
             Selecionando essa opção, você concorda com a nossa{" "}
             <a href="#" className="font-semibold text-green-600">
               política de privacidade

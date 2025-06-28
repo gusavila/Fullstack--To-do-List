@@ -4,7 +4,7 @@ function ContactTitle() {
       <h2 className="text-4xl font-semibold tracking-tight sm:text-5xl">
         Me envie uma mensagem
       </h2>
-      <p className="mt-2 text-lg text-gray-500">
+      <p className="mt-2 text-lg">
         Quero ouvir o seu feedback e sugestões! 😀
       </p>
     </div>

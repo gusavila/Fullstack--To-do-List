@@ -9,7 +9,7 @@ const TodoForm = ({ task, setTask, onAddTask, onKeyDown, loading }) => {
         value={task}
         onChange={(event) => setTask(event.target.value)}
         placeholder="Digite sua tarefa..."
-        className="flex-1 px-4 py-2 rounded-xl border border-gray-300 focus:outline-none focus:ring-1 focus:ring-green-400"
+        className="flex-1 px-4 py-2 rounded-xl border border-gray-300 focus:outline-none focus:ring-1 focus:ring-green-400 dark:bg-gray-50 dark:text-gray-700"
       />
       <motion.button
         whileHover={{ scale: 1.05 }}

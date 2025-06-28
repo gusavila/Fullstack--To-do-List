@@ -112,8 +112,8 @@ function TodoApp() {
       {loadingTodoList ? (
         <LoadingTodo className="w-full max-w-md bg-white shadow-xl rounded-2xl p-6" />
       ) : (
-        <div className="w-full max-w-md bg-white shadow-xl rounded-2xl p-6  ring-1 ring-gray-400/10">
-          <h1 className="text-2xl font-bold mb-4 text-center">
+        <div className="w-full max-w-md bg-white shadow-xl rounded-2xl p-6  ring-1 ring-gray-400/10 dark:bg-gray-700 dark:text-gray-600">
+          <h1 className="text-2xl font-bold mb-4 text-center dark:text-gray-50">
             Lista de Tarefas
           </h1>
           <TodoForm

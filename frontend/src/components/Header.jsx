@@ -8,6 +8,7 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { AuthContext } from "../context/AuthContext.jsx";
 import { MoonIcon, SunIcon } from "@heroicons/react/24/outline";
 import useTheme from "../hooks/useTheme.js";
+import ToggleSwitch from "./ToggleSwitch.jsx";
 
 function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -55,17 +56,18 @@ function Header() {
         </div>
 
         <div className="hidden lg:flex lg:flex-1 lg:justify-end items-center space-x-4">
-           <button
-              onClick={toggleTheme}
-              className="p-2 rounded-full bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition"
-              aria-label="Toggle dark mode"
-            >
-              {theme === "dark" ? (
-                <SunIcon className="h-5 w-5 text-yellow-400" />
-              ) : (
-                <MoonIcon className="h-5 w-5 text-gray-800" />
-              )}
-            </button>
+          <ToggleSwitch toggleTheme={toggleTheme} />
+          <button
+            onClick={toggleTheme}
+            className="p-1 rounded-full bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition"
+            aria-label="Toggle dark mode"
+          >
+            {theme === "dark" ? (
+              <SunIcon className="h-5 w-5 text-yellow-400" />
+            ) : (
+              <MoonIcon className="h-5 w-5 text-gray-800" />
+            )}
+          </button>
           {user ? (
             <div className="flex items-center gap-2">
               <span className="font-light">Olá, {user.name}</span>

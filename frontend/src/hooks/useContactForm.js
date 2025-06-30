@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 import { sendUserFeedback } from "../services/api";
 
-export default function useContactForm() {
+function useContactForm() {
   const [agreed, setAgreed] = useState(false);
   const [message, setMessage] = useState(null);
   const [errors, setErrors] = useState({});
@@ -90,3 +90,5 @@ export default function useContactForm() {
     handleSubmit,
   };
 }
+
+export default useContactForm;

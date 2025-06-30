@@ -25,7 +25,7 @@ function About() {
               <path d="M100 200V.5M.5 .5H200" fill="none" />
             </pattern>
           </defs>
-          <svg x="50%" y={-1} className="overflow-visible fill-gray-50 dark:fill-gray-700">
+          <svg x="50%" y={-1} className="overflow-visible fill-gray-100 dark:fill-gray-700">
             <path
               d="M-100.5 0h201v201h-201Z M699.5 0h201v201h-201Z M499.5 400h201v201h-201Z M-300.5 600h201v201h-201Z"
               strokeWidth={0}
@@ -46,14 +46,14 @@ function About() {
               <p className="text-base/7 font-semibold text-green-600 dark:text-green-400">
                 Organize sua rotina com facilidade
               </p>
-              <h1 className="mt-2 text-4xl font-semibold tracking-tight text-pretty sm:text-5xl">
+              <h1 className="mt-2 text-4xl font-semibold tracking-tight text-pretty sm:text-5xl text-gray-700 dark:text-gray-200">
                 Um gerenciador de tarefas simples e eficaz
               </h1>
               <p className="mt-6 text-xl/8">
-                Este projeto é uma aplicação web de <strong className="font-semibold text-gray-800 dark:text-white">To-Do List</strong>{" "}
+                Este projeto é uma aplicação web de <strong className="font-semibold text-gray-800 dark:text-gray-50">To-Do List</strong>{" "}
                 que permite que usuários adicionem, editem e removam tarefas com
                 praticidade. Com um fluxo de autenticação via{" "}
-                <strong className="font-semibold text-gray-800 dark:text-white">JWT</strong>, cada usuário possui sua própria lista,
+                <strong className="font-semibold text-gray-800 dark:text-gray-50">JWT</strong>, cada usuário possui sua própria lista,
                 tornando a experiência personalizada e segura.
               </p>
             </div>
@@ -82,7 +82,7 @@ function About() {
                     className="mt-1 size-5 flex-none text-green-600 dark:text-green-400"
                   />
                   <span>
-                    <strong className="font-semibold text-gray-800 dark:text-white">
+                    <strong className="font-semibold text-gray-800 dark:text-gray-50">
                       Experiência do Usuário:
                     </strong>{" "}
                     Interface responsiva e tela adptada para screen readers.
@@ -94,7 +94,7 @@ function About() {
                     className="mt-1 size-5 flex-none text-green-600 dark:text-green-400"
                   />
                   <span>
-                    <strong className="font-semibold text-gray-800 dark:text-white">
+                    <strong className="font-semibold text-gray-800 dark:text-gray-50">
                       Segurança:
                     </strong>{" "}
                     Senhas são criptografadas utilizando Bycript e sessões são
@@ -107,7 +107,7 @@ function About() {
                     className="mt-1 size-5 flex-none text-green-600 dark:text-green-400"
                   />
                   <span>
-                    <strong className="font-semibold text-gray-800 dark:text-white">
+                    <strong className="font-semibold text-gray-800 dark:text-gray-50">
                       Deploy amigável:
                     </strong>{" "}
                     estrutura pronta para produção
@@ -117,7 +117,7 @@ function About() {
               <p className="mt-8">
                 O projeto oferece cadastro e login de usuários com autenticação segura via JWT, possibilita a criação, edição e exclusão de tarefas com feedback visual e mensagens de boas-vindas personalizadas. Todas as informações são armazenadas em um banco de dados PostgreSQL, com integração completa entre o backend em Node.js e o frontend em React.
               </p>
-              <h2 className="mt-16 text-2xl font-bold tracking-tight">
+              <h2 className="mt-16 text-2xl font-bold tracking-tight text-gray-700 dark:text-gray-200">
                 Pronto para escalar
               </h2>
               <p className="mt-6">

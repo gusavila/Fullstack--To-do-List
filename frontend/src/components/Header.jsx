@@ -6,16 +6,13 @@ import { Dialog, DialogPanel } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { AuthContext } from "../context/AuthContext.jsx";
-import { MoonIcon, SunIcon } from "@heroicons/react/24/outline";
-import useTheme from "../hooks/useTheme.js";
 import ToggleSwitch from "./ToggleSwitch.jsx";
 
 function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const { theme, toggleTheme } = useTheme();
   const MotionLink = motion.create(Link);
   const motionLinkProps = {
-    whileHover: { scale: 1.05 },
+    whileHover: { scale: 1.02 },
     whileTap: { scale: 0.95 },
   };
   const { user, logout } = useContext(AuthContext);
@@ -34,40 +31,28 @@ function Header() {
             className="-m-1.5 p-1.5 mr-6 text-lg flex items-center gap-1"
           >
             <span className="sr-only">Logo da empresa</span>
-            <span className="font-semibold">Todo List</span>
+            <span className="dark:hover:text-white">Todo List</span>
             <AddTaskIcon className="text-green-500" />
           </MotionLink>
           <div className="hidden lg:flex lg:justify-items-center lg:space-x-6">
             <MotionLink
               to="/about"
-              {...motionLinkProps}
-              className="-m-1.5 p-1.5 flex gap-1 mx-1 hover:text-green-600"
+              className="-m-1.5 p-1.5 flex gap-1 mx-1 hover:text-gray-700 dark:hover:text-white"
             >
-              <span className="font-semibold">Sobre</span>
+              <span>Sobre</span>
             </MotionLink>
             <MotionLink
               to="/contact"
-              {...motionLinkProps}
-              className="-m-1.5 p-1.5 flex gap-1 mx-1 hover:text-green-600"
+              className="-m-1.5 p-1.5 flex gap-1 mx-1 hover:text-gray-700 dark:hover:text-white"
             >
-              <span className="font-semibold">Contato</span>
+              <span>Contato</span>
             </MotionLink>
           </div>
         </div>
 
         <div className="hidden lg:flex lg:flex-1 lg:justify-end items-center space-x-4">
-          <ToggleSwitch toggleTheme={toggleTheme} />
-          <button
-            onClick={toggleTheme}
-            className="p-1 rounded-full bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition"
-            aria-label="Toggle dark mode"
-          >
-            {theme === "dark" ? (
-              <SunIcon className="h-5 w-5 text-yellow-400" />
-            ) : (
-              <MoonIcon className="h-5 w-5 text-gray-800" />
-            )}
-          </button>
+          <ToggleSwitch />
+          
           {user ? (
             <div className="flex items-center gap-2">
               <span className="font-light">Olá, {user.name}</span>
@@ -77,7 +62,6 @@ function Header() {
                   logout();
                   navigate("/login");
                 }}
-                {...motionLinkProps}
                 className="font-semibold cursor-pointer text-red-400 ml-4"
               >
                 Sair
@@ -87,14 +71,12 @@ function Header() {
             <>
               <MotionLink
                 to="/login"
-                {...motionLinkProps}
-                className="font-semibold px-4 py-2 rounded-xl hover:text-green-600"
+                className="px-4 py-2 font-semibold rounded-xl ring  ring-green-500 text-green-500 hover:text-green-600 hover:bg-green-50 shadow-md"
               >
                 Entrar
               </MotionLink>
               <MotionLink
                 to="/register"
-                {...motionLinkProps}
                 className="px-4 py-2 bg-green-500 hover:bg-green-600 text-white font-semibold rounded-xl shadow-md"
               >
                 Criar conta

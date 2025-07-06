@@ -7,6 +7,7 @@ import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { AuthContext } from "../context/AuthContext.jsx";
 import ToggleSwitch from "./ToggleSwitch.jsx";
+import ExitToAppRoundedIcon from '@mui/icons-material/ExitToAppRounded';
 
 function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -62,9 +63,10 @@ function Header() {
                   logout();
                   navigate("/login");
                 }}
-                className="font-semibold cursor-pointer text-red-400 ml-4"
+                className="cursor-pointer text-red-400 ml-4"
               >
-                Sair
+                Sair {""}
+                <ExitToAppRoundedIcon fontSize="small" />
               </motion.button>
             </div>
           ) : (

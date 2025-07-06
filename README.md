@@ -1,12 +1,14 @@
 # 📝 Todo List App
 
-Aplicação web para gerenciamento de tarefas com sistema de autenticação. Permite ao usuário registrar-se, fazer login, criar, editar e excluir tarefas.
+Web application for task management with authentication system. Allows users to register, log in, create, edit, and delete tasks.
 
-![Imagem da lista de tarefas](https://github.com/user-attachments/assets/37b80bd7-4d73-41a8-9ba8-884ef0e62a42)
+## 📸 Preview
+
+![Task list preview](frontend/src/assets/images/preview.png)
 
 ---
 
-## 🛠️ Tecnologias
+## 🛠️ Technologies
 
 **Frontend:**
 - React.js
@@ -26,19 +28,19 @@ Aplicação web para gerenciamento de tarefas com sistema de autenticação. Per
 
 ---
 
-## 🚀 Funcionalidades
+## 🚀 Features
 
-- Registro de usuário com login automático
-- Login com persistência de sessão via JWT
-- Logout com remoção do token
-- Validação de formulário
-- Criação, edição, exclusão e listagem de tarefas
-- Tarefas vinculadas ao usuário autenticado
-- Rotas protegidas com middleware
+- User registration with automatic login
+- Login with session persistence via JWT
+- Logout with token removal
+- Form validation
+- Task creation, editing, deletion, and listing
+- Tasks linked to authenticated user
+- Protected routes with middleware
 
 ---
 
-## 📁 Estrutura de Pastas
+## 📁 Folder Structure
 
 ```bash
 .
@@ -64,23 +66,23 @@ Aplicação web para gerenciamento de tarefas com sistema de autenticação. Per
 
 ---
 
-## ⚙️ Como rodar localmente
+## ⚙️ How to Run Locally
 
-1. Clone o repositório:
+1. Clone the repository:
 ```bash
-git clone https://github.com/seu-usuario/seu-repo.git
-cd seu-repo
+git clone https://github.com/your-username/your-repo.git
+cd your-repo
 ```
 
-2. Configure o **backend**:
+2. Set up the **backend**:
 ```bash
 cd backend
-cp .env.example .env # ou crie seu próprio .env
+cp .env.example .env # or create your own .env file
 npm install
 npm run dev
 ```
 
-> Variáveis necessárias no `.env`:
+> Required variables in `.env`:
 ```env
 PG_USER=""
 PG_HOST=""
@@ -88,10 +90,10 @@ PG_DATABASE=""
 PG_PASSWORD=""
 PG_PORT=""
 
-JWT_SECRET=sua_chave_secreta
+JWT_SECRET=your_secret_key
 ```
 
-3. Configure o **frontend**:
+3. Set up the **frontend**:
 ```bash
 cd ../frontend
 npm install
@@ -102,13 +104,17 @@ npm run dev
 
 ## 📌 TODO
 
-- [ ] Filtro de tarefas concluídas/pedentes
-- [ ] Dark Mode
-- [ ] Deploy no Vercel e Render
+- [ ] Task filter (completed/pending)
+- [x] Dark Mode
+- [ ] Deploy on Vercel and Render
 
 ---
 
-## 🧑‍💻 Autor
+## 🧑‍💻 Author
 
 **Gustavo**  
-Formado em Sistemas de Informação, com foco em frontend web development.
+Bachelor in Information Systems, focused on frontend web development.
+
+## 📄 License
+
+This project is open source and available under the [MIT License](LICENSE).
